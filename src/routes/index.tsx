@@ -36,19 +36,15 @@ const nav = [
 ];
 
 const temas = [
-  { nome: "Infantil", img: infantil, cat: "Infantil" },
-  { nome: "Chá de bebê", img: cha, cat: "Chá de bebê" },
-  { nome: "Aniversário adulto", img: adulto, cat: "Adulto" },
-  { nome: "Casamento", img: casamento, cat: "Casamento" },
-  { nome: "Noivado", img: noivado, cat: "Casamento" },
-  { nome: "Formatura", img: formatura, cat: "Adulto" },
+  { nome: "Infantil", img: stitch, cat: "Infantil" },
+  { nome: "Chá de bebê & Mesversário", img: ursos, cat: "Bebê & Mesversário" },
+  { nome: "Times & Futebol", img: corinthians, cat: "Esportes" },
+  { nome: "Adulto & Elegante", img: eleganteMarrom, cat: "Adulto" },
+  { nome: "Festa completa em salão", img: salaoBrancaDeNeves, cat: "Infantil" },
+  { nome: "Tema personalizado", img: arcoNeon, cat: "Adulto" },
 ];
-const galeria = [
-  { img: hero, cat: "Chá de bebê" }, { img: infantil, cat: "Infantil" }, { img: casamento, cat: "Casamento" },
-  { img: adulto, cat: "Adulto" }, { img: cha, cat: "Chá de bebê" }, { img: noivado, cat: "Casamento" },
-  { img: formatura, cat: "Adulto" }, { img: infantil, cat: "Infantil" },
-];
-const cats = ["Todas", "Infantil", "Chá de bebê", "Adulto", "Casamento"];
+const galeria = fotos;
+const cats = ["Todas", "Infantil", "Bebê & Mesversário", "Esportes", "Adulto"];
 
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <div className={`reveal ${className}`}>{children}</div>;
