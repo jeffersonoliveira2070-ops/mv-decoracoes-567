@@ -8,12 +8,13 @@ import {
 import {
   fotos, heroFoto, stitch, ursos, corinthians, eleganteMarrom, salaoBrancaDeNeves, arcoNeon,
 } from "@/assets/photos";
+import logoAsset from "@/assets/logo.png.asset.json";
 
 // ====== DADOS DO NEGÓCIO ======
 const NOME = "MV Decorações";
 const CIDADE = "Arapiraca - AL";
 const WHATS = "5582987693821"; // 55 + DDD + número
-const INSTAGRAM = ""; // @usuario — preencha quando tiver o arroba
+const INSTAGRAM = "mv_decoracao1";
 const TELEFONE = "(82) 98769-3821";
 const wa = (msg = `Olá! Gostaria de pedir um orçamento de decoração pegue e monte.`) =>
   `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
@@ -105,7 +106,7 @@ function Index() {
       <header className="fixed inset-x-0 top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
           <a href="#inicio" className="flex min-w-0 items-center gap-2">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-gradient font-display text-xs font-semibold text-primary-foreground">MV</span>
+            <img src={logoAsset.url} alt="Logo MV Decorações" className="h-10 w-10 shrink-0 rounded-full object-cover" />
             <span className="truncate font-display text-lg font-semibold">{NOME}</span>
           </a>
           <nav className="hidden items-center gap-6 lg:flex">
@@ -313,7 +314,7 @@ function Index() {
       <footer className="border-t border-border py-12">
         <div className="mx-auto grid max-w-6xl gap-8 px-5 text-sm sm:grid-cols-3">
           <div className="flex items-center gap-2">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-gold-gradient font-display text-sm font-semibold text-primary-foreground">MV</span>
+            <img src={logoAsset.url} alt="Logo MV Decorações" className="h-16 w-16 rounded-full object-cover" />
             <span className="font-display text-lg font-semibold">{NOME}</span>
           </div>
           <div>
