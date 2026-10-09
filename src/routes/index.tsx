@@ -5,13 +5,9 @@ import {
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
 } from "lucide-react";
-import hero from "@/assets/hero.jpg";
-import infantil from "@/assets/infantil.jpg";
-import cha from "@/assets/cha.jpg";
-import adulto from "@/assets/adulto.jpg";
-import casamento from "@/assets/casamento.jpg";
-import noivado from "@/assets/noivado.jpg";
-import formatura from "@/assets/formatura.jpg";
+import {
+  fotos, heroFoto, stitch, ursos, corinthians, eleganteMarrom, salaoBrancaDeNeves, arcoNeon,
+} from "@/assets/photos";
 
 // ====== DADOS DO NEGÓCIO — substitua pelos reais ======
 const NOME = "[NOME DO NEGÓCIO]";
@@ -40,19 +36,15 @@ const nav = [
 ];
 
 const temas = [
-  { nome: "Infantil", img: infantil, cat: "Infantil" },
-  { nome: "Chá de bebê", img: cha, cat: "Chá de bebê" },
-  { nome: "Aniversário adulto", img: adulto, cat: "Adulto" },
-  { nome: "Casamento", img: casamento, cat: "Casamento" },
-  { nome: "Noivado", img: noivado, cat: "Casamento" },
-  { nome: "Formatura", img: formatura, cat: "Adulto" },
+  { nome: "Infantil", img: stitch, cat: "Infantil" },
+  { nome: "Chá de bebê & Mesversário", img: ursos, cat: "Bebê & Mesversário" },
+  { nome: "Times & Futebol", img: corinthians, cat: "Esportes" },
+  { nome: "Adulto & Elegante", img: eleganteMarrom, cat: "Adulto" },
+  { nome: "Festa completa em salão", img: salaoBrancaDeNeves, cat: "Infantil" },
+  { nome: "Tema personalizado", img: arcoNeon, cat: "Adulto" },
 ];
-const galeria = [
-  { img: hero, cat: "Chá de bebê" }, { img: infantil, cat: "Infantil" }, { img: casamento, cat: "Casamento" },
-  { img: adulto, cat: "Adulto" }, { img: cha, cat: "Chá de bebê" }, { img: noivado, cat: "Casamento" },
-  { img: formatura, cat: "Adulto" }, { img: infantil, cat: "Infantil" },
-];
-const cats = ["Todas", "Infantil", "Chá de bebê", "Adulto", "Casamento"];
+const galeria = fotos;
+const cats = ["Todas", "Infantil", "Bebê & Mesversário", "Esportes", "Adulto"];
 
 function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <div className={`reveal ${className}`}>{children}</div>;
@@ -90,9 +82,9 @@ function Index() {
   }, [filtro]);
 
   const depoimentos = [
-    { nome: "Juliana M.", texto: "Tudo chegou no horário, montado com muito capricho. A festa da minha filha ficou um sonho!", foto: infantil },
-    { nome: "Carla e Rafael", texto: "Nosso noivado ficou elegante e delicado, exatamente como imaginamos. Atendimento impecável.", foto: noivado },
-    { nome: "Patrícia S.", texto: "Itens lindos e limpinhos, e eu não precisei me preocupar com nada. Super recomendo!", foto: cha },
+    { nome: "Juliana M.", texto: "Tudo chegou no horário, montado com muito capricho. A festa da minha filha ficou um sonho!", foto: fotos[25]!.img },
+    { nome: "Carla e Rafael", texto: "A decoração ficou linda e delicada, exatamente como imaginamos. Atendimento impecável.", foto: fotos[16]!.img },
+    { nome: "Patrícia S.", texto: "Itens lindos e limpinhos, e eu não precisei me preocupar com nada. Super recomendo!", foto: fotos[26]!.img },
   ];
 
   const d = depoimentos[dep]!;
@@ -144,7 +136,7 @@ function Index() {
           </Reveal>
           <Reveal className="relative">
             <div className="absolute -inset-3 rounded-[2rem] bg-gold-gradient opacity-30 blur-2xl" />
-            <img src={hero} width={1600} height={1104} alt="Mesa decorada com arco de balões rosa e dourado" className="relative rounded-[2rem] shadow-soft" />
+            <img src={heroFoto} alt="Decoração de festa com painel e arco de balões" className="relative rounded-[2rem] shadow-soft" />
           </Reveal>
         </div>
       </section>
