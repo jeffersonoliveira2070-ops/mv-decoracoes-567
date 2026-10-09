@@ -22,7 +22,7 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: `Decoração Pegue e Monte em ${CIDADE} | ${NOME}` },
-      { name: "description", content: `Decoração pegue e monte em ${CIDADE}: entregamos, montamos e retiramos tudo. Temas infantis, chá de bebê, casamento e mais. Peça seu orçamento pelo WhatsApp.` },
+      { name: "description", content: `Decoração pegue e monte em ${CIDADE}: entregamos, montamos e retiramos tudo. Temas infantis, chá de bebê, times e adulto. Peça seu orçamento pelo WhatsApp.` },
       { property: "og:title", content: `Decoração Pegue e Monte em ${CIDADE} | ${NOME}` },
       { property: "og:description", content: "Sua festa dos sonhos, sem complicação. Entregamos, montamos e retiramos tudo." },
     ],
@@ -105,7 +105,7 @@ function Index() {
       <header className="fixed inset-x-0 top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-5">
           <a href="#inicio" className="flex min-w-0 items-center gap-2">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-dashed border-gold text-[9px] text-muted-foreground">LOGO</span>
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-gold-gradient font-display text-xs font-semibold text-primary-foreground">MV</span>
             <span className="truncate font-display text-lg font-semibold">{NOME}</span>
           </a>
           <nav className="hidden items-center gap-6 lg:flex">
@@ -287,7 +287,7 @@ function Index() {
             <h2 className="text-3xl font-semibold sm:text-4xl">Peça seu orçamento</h2>
             <p className="mt-4 text-muted-foreground">Preencha os dados e enviaremos sua mensagem direto no nosso WhatsApp.</p>
             <ul className="mt-8 space-y-4 text-sm">
-              <li><a href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noreferrer" className="flex items-center gap-3"><Instagram className="text-primary" /> @{INSTAGRAM}</a></li>
+              {INSTAGRAM && <li><a href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noreferrer" className="flex items-center gap-3"><Instagram className="text-primary" /> @{INSTAGRAM}</a></li>}
               <li className="flex items-center gap-3"><Phone className="text-primary" /> {TELEFONE}</li>
               <li className="flex items-center gap-3"><MapPin className="text-primary" /> Atendemos {CIDADE} e região</li>
             </ul>
@@ -313,7 +313,7 @@ function Index() {
       <footer className="border-t border-border py-12">
         <div className="mx-auto grid max-w-6xl gap-8 px-5 text-sm sm:grid-cols-3">
           <div className="flex items-center gap-2">
-            <span className="grid h-10 w-10 place-items-center rounded-full border border-dashed border-gold text-[9px] text-muted-foreground">LOGO</span>
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-gold-gradient font-display text-sm font-semibold text-primary-foreground">MV</span>
             <span className="font-display text-lg font-semibold">{NOME}</span>
           </div>
           <div>
@@ -321,7 +321,7 @@ function Index() {
             <p className="text-muted-foreground">Seg a Sex: 9h às 18h · Sáb: 9h às 13h</p>
           </div>
           <div className="flex gap-4 sm:justify-end">
-            <a href={`https://instagram.com/${INSTAGRAM}`} aria-label="Instagram" target="_blank" rel="noreferrer"><Instagram className="text-primary" /></a>
+            {INSTAGRAM && <a href={`https://instagram.com/${INSTAGRAM}`} aria-label="Instagram" target="_blank" rel="noreferrer"><Instagram className="text-primary" /></a>}
             <a href={wa()} aria-label="WhatsApp" target="_blank" rel="noreferrer"><MessageCircle className="text-primary" /></a>
           </div>
         </div>
