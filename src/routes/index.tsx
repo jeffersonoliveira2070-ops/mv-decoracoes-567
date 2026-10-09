@@ -13,13 +13,9 @@ import logoAsset from "@/assets/logo.png.asset.json";
 // ====== DADOS DO NEGÓCIO ======
 const NOME = "MV Decorações";
 const CIDADE = "Arapiraca - AL";
-const WHATS = "5582987693821"; // 55 + DDD + número
 const INSTAGRAM = "mv_decoracao1";
 const TELEFONE = "(82) 98769-3821";
 const WA_DIRECT = "https://wa.me/message/CGSSC2KWYNFTG1"; // link direto da conversa
-// Sem mensagem: abre a conversa direto. Com mensagem: usa o número para já deixar o texto pronto.
-const wa = (msg?: string) =>
-  msg ? `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}` : WA_DIRECT;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,9 +49,9 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
   return <div className={`reveal ${className}`}>{children}</div>;
 }
 
-function CTA({ label = "Pedir orçamento", msg }: { label?: string; msg?: string }) {
+function CTA({ label = "Pedir orçamento" }: { label?: string }) {
   return (
-    <a href={wa(msg)} target="_blank" rel="noreferrer"
+    <a href={WA_DIRECT} target="_blank" rel="noreferrer"
       className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:opacity-95">
       <MessageCircle className="h-4 w-4" /> {label}
     </a>
@@ -77,6 +73,7 @@ function Index() {
   const [filtro, setFiltro] = useState("Todas");
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [dep, setDep] = useState(0);
+  const [copiado, setCopiado] = useState(false);
 
   useEffect(() => {
     const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: 0.12 });
