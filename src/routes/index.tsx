@@ -16,8 +16,10 @@ const CIDADE = "Arapiraca - AL";
 const WHATS = "5582987693821"; // 55 + DDD + número
 const INSTAGRAM = "mv_decoracao1";
 const TELEFONE = "(82) 98769-3821";
-const wa = (msg = `Olá! Gostaria de pedir um orçamento de decoração pegue e monte.`) =>
-  `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
+const WA_DIRECT = "https://wa.me/message/CGSSC2KWYNFTG1"; // link direto da conversa
+// Sem mensagem: abre a conversa direto. Com mensagem: usa o número para já deixar o texto pronto.
+const wa = (msg?: string) =>
+  msg ? `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}` : WA_DIRECT;
 
 export const Route = createFileRoute("/")({
   head: () => ({
