@@ -5,13 +5,9 @@ import {
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
 } from "lucide-react";
-import hero from "@/assets/hero.jpg";
-import infantil from "@/assets/infantil.jpg";
-import cha from "@/assets/cha.jpg";
-import adulto from "@/assets/adulto.jpg";
-import casamento from "@/assets/casamento.jpg";
-import noivado from "@/assets/noivado.jpg";
-import formatura from "@/assets/formatura.jpg";
+import {
+  fotos, heroFoto, stitch, ursos, corinthians, eleganteMarrom, salaoBrancaDeNeves, arcoNeon,
+} from "@/assets/photos";
 
 // ====== DADOS DO NEGÓCIO — substitua pelos reais ======
 const NOME = "[NOME DO NEGÓCIO]";
