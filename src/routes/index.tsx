@@ -9,12 +9,12 @@ import {
   fotos, heroFoto, stitch, ursos, corinthians, eleganteMarrom, salaoBrancaDeNeves, arcoNeon,
 } from "@/assets/photos";
 
-// ====== DADOS DO NEGÓCIO — substitua pelos reais ======
-const NOME = "[NOME DO NEGÓCIO]";
-const CIDADE = "[CIDADE/ESTADO]";
-const WHATS = "5500000000000"; // 55 + DDD + número
-const INSTAGRAM = "usuario";
-const TELEFONE = "(00) 00000-0000";
+// ====== DADOS DO NEGÓCIO ======
+const NOME = "MV Decorações";
+const CIDADE = "Arapiraca - AL";
+const WHATS = "5582987693821"; // 55 + DDD + número
+const INSTAGRAM = ""; // @usuario — preencha quando tiver o arroba
+const TELEFONE = "(82) 98769-3821";
 const wa = (msg = `Olá! Gostaria de pedir um orçamento de decoração pegue e monte.`) =>
   `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`;
 
