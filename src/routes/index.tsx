@@ -13,13 +13,9 @@ import logoAsset from "@/assets/logo.png.asset.json";
 // ====== DADOS DO NEGÓCIO ======
 const NOME = "MV Decorações";
 const CIDADE = "Arapiraca - AL";
-const WHATS = "5582987693821"; // 55 + DDD + número
 const INSTAGRAM = "mv_decoracao1";
 const TELEFONE = "(82) 98769-3821";
 const WA_DIRECT = "https://wa.me/message/CGSSC2KWYNFTG1"; // link direto da conversa
-// Sem mensagem: abre a conversa direto. Com mensagem: usa o número para já deixar o texto pronto.
-const wa = (msg?: string) =>
-  msg ? `https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}` : WA_DIRECT;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -53,9 +49,9 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
   return <div className={`reveal ${className}`}>{children}</div>;
 }
 
-function CTA({ label = "Pedir orçamento", msg }: { label?: string; msg?: string }) {
+function CTA({ label = "Pedir orçamento" }: { label?: string }) {
   return (
-    <a href={wa(msg)} target="_blank" rel="noreferrer"
+    <a href={WA_DIRECT} target="_blank" rel="noreferrer"
       className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:opacity-95">
       <MessageCircle className="h-4 w-4" /> {label}
     </a>
@@ -77,6 +73,7 @@ function Index() {
   const [filtro, setFiltro] = useState("Todas");
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [dep, setDep] = useState(0);
+  const [copiado, setCopiado] = useState(false);
 
   useEffect(() => {
     const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: 0.12 });
@@ -92,11 +89,12 @@ function Index() {
 
   const d = depoimentos[dep]!;
 
-  function enviar(e: FormEvent<HTMLFormElement>) {
+  async function enviar(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const msg = `Olá! Meu nome é ${f.get("nome")}.\nTelefone: ${f.get("tel")}\nData do evento: ${f.get("data")}\nTipo de festa: ${f.get("tipo")}\nMensagem: ${f.get("msg")}`;
-    window.open(wa(msg), "_blank");
+    try { await navigator.clipboard.writeText(msg); setCopiado(true); } catch { /* sem acesso à área de transferência */ }
+    window.open(WA_DIRECT, "_blank");
   }
 
   const input = "w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring";
@@ -175,7 +173,7 @@ function Index() {
                 </div>
                 <div className="flex items-center justify-between gap-3 p-5">
                   <h3 className="text-xl font-semibold">{t.nome}</h3>
-                  <a href={wa(`Olá! Quero o tema ${t.nome}. Pode me passar um orçamento?`)} target="_blank" rel="noreferrer" className="shrink-0 rounded-full bg-secondary px-4 py-2 text-xs font-medium text-secondary-foreground transition hover:bg-primary hover:text-primary-foreground">Quero este tema</a>
+                  <a href={WA_DIRECT} target="_blank" rel="noreferrer" className="shrink-0 rounded-full bg-secondary px-4 py-2 text-xs font-medium text-secondary-foreground transition hover:bg-primary hover:text-primary-foreground">Quero este tema</a>
                 </div>
               </Reveal>
             ))}
@@ -288,7 +286,7 @@ function Index() {
           <Reveal>
             <p className="mb-3 text-xs font-medium uppercase tracking-[0.25em] text-gold">Vamos conversar</p>
             <h2 className="text-3xl font-semibold sm:text-4xl">Peça seu orçamento</h2>
-            <p className="mt-4 text-muted-foreground">Preencha os dados e enviaremos sua mensagem direto no nosso WhatsApp.</p>
+            <p className="mt-4 text-muted-foreground">Preencha os dados: sua mensagem é copiada e o WhatsApp abre pronto para você colar.</p>
             <ul className="mt-8 space-y-4 text-sm">
               {INSTAGRAM && <li><a href={`https://instagram.com/${INSTAGRAM}`} target="_blank" rel="noreferrer" className="flex items-center gap-3"><Instagram className="text-primary" /> @{INSTAGRAM}</a></li>}
               <li className="flex items-center gap-3"><Phone className="text-primary" /> {TELEFONE}</li>
@@ -308,6 +306,7 @@ function Index() {
             </div>
             <textarea name="msg" rows={4} placeholder="Conte um pouco sobre sua festa" className={input} />
             <button className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90"><MessageCircle className="h-4 w-4" /> Enviar pelo WhatsApp</button>
+            {copiado && <p className="text-center text-xs text-muted-foreground">Prontinho! Sua mensagem foi copiada — é só colar (Ctrl+V) na conversa que abriu.</p>}
           </form>
         </div>
       </section>
@@ -325,14 +324,14 @@ function Index() {
           </div>
           <div className="flex gap-4 sm:justify-end">
             {INSTAGRAM && <a href={`https://instagram.com/${INSTAGRAM}`} aria-label="Instagram" target="_blank" rel="noreferrer"><Instagram className="text-primary" /></a>}
-            <a href={wa()} aria-label="WhatsApp" target="_blank" rel="noreferrer"><MessageCircle className="text-primary" /></a>
+            <a href={WA_DIRECT} aria-label="WhatsApp" target="_blank" rel="noreferrer"><MessageCircle className="text-primary" /></a>
           </div>
         </div>
         <p className="mt-8 text-center text-xs text-muted-foreground">© {new Date().getFullYear()} {NOME}. Todos os direitos reservados.</p>
       </footer>
 
       {/* WhatsApp flutuante */}
-      <a href={wa()} target="_blank" rel="noreferrer" aria-label="Falar no WhatsApp"
+      <a href={WA_DIRECT} target="_blank" rel="noreferrer" aria-label="Falar no WhatsApp"
         className="fixed bottom-5 right-5 z-40 grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-soft transition hover:scale-110">
         <MessageCircle />
       </a>
