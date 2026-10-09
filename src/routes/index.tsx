@@ -96,6 +96,8 @@ function Index() {
     { nome: "Patrícia S.", texto: "Itens lindos e limpinhos, e eu não precisei me preocupar com nada. Super recomendo!", foto: cha },
   ];
 
+  const d = depoimentos[dep]!;
+
   function enviar(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
@@ -252,10 +254,10 @@ function Index() {
         <div className="mx-auto max-w-3xl px-5">
           <Title kicker="Quem já fez festa com a gente" title="Depoimentos" />
           <div className="relative rounded-3xl bg-card p-8 text-center shadow-soft sm:p-12">
-            <img src={depoimentos[dep].foto} alt={depoimentos[dep].nome} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover" />
+            <img src={d.foto} alt={d.nome} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover" />
             <div className="mt-4 flex justify-center gap-1 text-gold">{Array.from({ length: 5 }).map((_, i) => <Star key={i} className="h-4 w-4 fill-current" />)}</div>
-            <p className="mt-5 font-display text-xl italic">"{depoimentos[dep].texto}"</p>
-            <p className="mt-4 text-sm font-medium text-muted-foreground">{depoimentos[dep].nome}</p>
+            <p className="mt-5 font-display text-xl italic">"{d.texto}"</p>
+            <p className="mt-4 text-sm font-medium text-muted-foreground">{d.nome}</p>
             <div className="mt-6 flex items-center justify-center gap-4">
               <button aria-label="Anterior" onClick={() => setDep((dep + 2) % 3)} className="rounded-full bg-secondary p-2"><ChevronLeft className="h-4 w-4" /></button>
               {depoimentos.map((_, i) => <span key={i} className={`h-2 rounded-full transition-all ${i === dep ? "w-6 bg-primary" : "w-2 bg-border"}`} />)}
