@@ -82,9 +82,9 @@ function Index() {
   }, [filtro]);
 
   const depoimentos = [
-    { nome: "Juliana M.", texto: "Tudo chegou no horário, montado com muito capricho. A festa da minha filha ficou um sonho!", foto: infantil },
-    { nome: "Carla e Rafael", texto: "Nosso noivado ficou elegante e delicado, exatamente como imaginamos. Atendimento impecável.", foto: noivado },
-    { nome: "Patrícia S.", texto: "Itens lindos e limpinhos, e eu não precisei me preocupar com nada. Super recomendo!", foto: cha },
+    { nome: "Juliana M.", texto: "Tudo chegou no horário, montado com muito capricho. A festa da minha filha ficou um sonho!", foto: fotos[25]!.img },
+    { nome: "Carla e Rafael", texto: "A decoração ficou linda e delicada, exatamente como imaginamos. Atendimento impecável.", foto: fotos[16]!.img },
+    { nome: "Patrícia S.", texto: "Itens lindos e limpinhos, e eu não precisei me preocupar com nada. Super recomendo!", foto: fotos[26]!.img },
   ];
 
   const d = depoimentos[dep]!;
@@ -136,7 +136,7 @@ function Index() {
           </Reveal>
           <Reveal className="relative">
             <div className="absolute -inset-3 rounded-[2rem] bg-gold-gradient opacity-30 blur-2xl" />
-            <img src={hero} width={1600} height={1104} alt="Mesa decorada com arco de balões rosa e dourado" className="relative rounded-[2rem] shadow-soft" />
+            <img src={heroFoto} alt="Decoração de festa com painel e arco de balões" className="relative rounded-[2rem] shadow-soft" />
           </Reveal>
         </div>
       </section>
