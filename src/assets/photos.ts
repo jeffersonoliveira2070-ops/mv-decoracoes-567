@@ -67,7 +67,7 @@ const cats: Record<number, Cat> = {
   42: "Bebê & Mesversário", 43: "Esportes", 44: "Infantil", 45: "Adulto",
 };
 
-export const fotos = F.map((img, i) => ({ n: i + 1, img, cat: cats[i + 1]! }));
+export const fotos = F.map((a, i) => ({ n: i + 1, img: a.url as string, cat: cats[i + 1]! }));
 
 // Destaques
 export const heroFoto = fotos[25]!.img;   // foto-26 — painel rosa "Happy Birthday"
