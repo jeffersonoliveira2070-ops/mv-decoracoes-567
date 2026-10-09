@@ -5,7 +5,6 @@ import {
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
 } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import hero from "@/assets/hero.jpg";
 import infantil from "@/assets/infantil.jpg";
 import cha from "@/assets/cha.jpg";
@@ -270,7 +269,7 @@ function Index() {
       {/* FAQ */}
       <section className="mx-auto max-w-3xl px-5 py-24">
         <Title kicker="Dúvidas" title="Perguntas frequentes" />
-        <Accordion type="single" collapsible className="rounded-3xl bg-card px-6 shadow-soft">
+        <div className="divide-y divide-border rounded-3xl bg-card px-6 shadow-soft">
           {[
             ["Como faço para reservar?", "É só nos chamar no WhatsApp com a data e o tema. Após o orçamento aprovado, a reserva é confirmada com um sinal."],
             ["Com quanto tempo de antecedência devo reservar?", "Recomendamos de 15 a 30 dias de antecedência, principalmente para fins de semana."],
@@ -279,12 +278,12 @@ function Index() {
             ["Qual a política de cancelamento?", "Cancelamentos com antecedência permitem remarcar a data. Consulte as condições no orçamento."],
             ["Existe taxa de entrega?", "A taxa varia conforme a distância e é informada já no orçamento, sem surpresas."],
           ].map(([q, a], i) => (
-            <AccordionItem key={i} value={`q${i}`}>
-              <AccordionTrigger className="text-left">{q}</AccordionTrigger>
-              <AccordionContent className="text-muted-foreground">{a}</AccordionContent>
-            </AccordionItem>
+            <details key={i} className="group py-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">{q}<span className="text-gold transition group-open:rotate-45">+</span></summary>
+              <p className="mt-3 text-sm text-muted-foreground">{a}</p>
+            </details>
           ))}
-        </Accordion>
+        </div>
         <div className="mt-10 text-center"><CTA label="Tirar dúvidas no WhatsApp" /></div>
       </section>
 
