@@ -66,9 +66,14 @@ function CTA({ label = "Pedir orçamento" }: { label?: string }) {
 function Title({ kicker, title, sub }: { kicker: string; title: string; sub?: string }) {
   return (
     <Reveal className="mx-auto mb-12 max-w-2xl text-center">
-      <p className="mb-3 text-xs font-medium uppercase tracking-[0.25em] text-gold">{kicker}</p>
+      <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-gold">{kicker}</p>
       <h2 className="text-3xl font-semibold sm:text-4xl">{title}</h2>
-      {sub && <p className="mt-4 text-muted-foreground">{sub}</p>}
+      <div className="mx-auto mt-5 flex items-center justify-center gap-2" aria-hidden="true">
+        <span className="h-px w-10 bg-gold/60" />
+        <Sparkles className="h-3.5 w-3.5 text-gold" />
+        <span className="h-px w-10 bg-gold/60" />
+      </div>
+      {sub && <p className="mt-4 leading-relaxed text-muted-foreground">{sub}</p>}
     </Reveal>
   );
 }
