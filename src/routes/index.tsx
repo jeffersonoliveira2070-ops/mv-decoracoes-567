@@ -135,6 +135,10 @@ function Index() {
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.25em] text-gold">Decoração pegue e monte · {CIDADE}</p>
             <h1 className="text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">Sua festa dos sonhos, <em className="text-primary">sem complicação</em></h1>
             <p className="mt-6 max-w-md text-muted-foreground">Você escolhe o tema e a gente cuida do resto: entregamos, montamos com carinho e retiramos tudo depois da festa.</p>
+            <p className="mt-4 inline-flex max-w-md items-start gap-2 rounded-2xl border border-gold/50 bg-secondary px-4 py-3 text-sm text-secondary-foreground">
+              <Truck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+              <span><strong>Entrega e retirada combinadas por mensagem.</strong> A gente se encaixa no horário da sua festa.</span>
+            </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <CTA label="Pedir orçamento pelo WhatsApp" />
               <a href="#galeria" className="inline-flex items-center rounded-full border border-gold px-6 py-3 text-sm font-medium transition hover:bg-secondary">Ver galeria</a>
@@ -151,7 +155,7 @@ function Index() {
       <section id="como-funciona" className="mx-auto max-w-6xl px-5 py-24">
         <Title kicker="Simples assim" title="Como funciona" />
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {[[Palette, "Escolha o tema", "Navegue pelos nossos temas ou conte sua ideia."], [MessageCircle, "Receba o orçamento", "Respondemos rapidinho pelo WhatsApp."], [Truck, "Entregamos e montamos", "Chegamos no horário e deixamos tudo pronto."], [PackageCheck, "Retiramos após a festa", "Você só aproveita, a gente recolhe tudo."]].map(([I, t, d], i) => {
+          {[[Palette, "Escolha o tema", "Navegue pelos nossos temas ou conte sua ideia."], [MessageCircle, "Receba o orçamento", "Respondemos rapidinho pelo WhatsApp."], [Truck, "Entregamos e montamos", "O horário da entrega é combinado com você por mensagem."], [PackageCheck, "Retiramos após a festa", "A retirada também é combinada por mensagem."]].map(([I, t, d], i) => {
             const Icon = I as typeof Palette;
             return (
               <Reveal key={i} className="rounded-3xl bg-card p-7 text-center shadow-soft">
