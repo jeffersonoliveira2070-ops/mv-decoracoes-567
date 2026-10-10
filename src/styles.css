@@ -154,8 +154,11 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font-sans); }
-  h1, h2, h3 { font-family: var(--font-display); }
+  body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+  section[id] { scroll-margin-top: 4.5rem; }
+  ::selection { background: var(--color-blush); color: var(--color-foreground); }
+  em { font-style: italic; }
 }
 @utility bg-hero { background: var(--gradient-hero); }
 @utility bg-gold-gradient { background: var(--gradient-gold); }
