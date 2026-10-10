@@ -167,6 +167,12 @@ function Index() {
             );
           })}
         </div>
+        <Reveal className="mx-auto mt-10 max-w-2xl rounded-2xl border border-gold/50 bg-secondary px-6 py-4 text-center text-sm text-secondary-foreground">
+          <span className="inline-flex items-center gap-2">
+            <Truck className="h-4 w-4 shrink-0 text-primary" />
+            <span>As datas de <strong>entrega e retirada são combinadas por mensagem</strong> — a gente ajusta tudo ao horário da sua festa.</span>
+          </span>
+        </Reveal>
         <div className="mt-10 text-center"><CTA /></div>
       </section>
 
@@ -293,7 +299,7 @@ function Index() {
             ["Qual a área de atendimento?", `Atendemos ${CIDADE} e região. Consulte para outras localidades.`],
             ["Quais as formas de pagamento?", "Pix, cartão de crédito e débito. O restante pode ser pago até a data do evento."],
             ["Qual a política de cancelamento?", "Cancelamentos com antecedência permitem remarcar a data. Consulte as condições no orçamento."],
-            ["Existe taxa de entrega?", "A taxa varia conforme a distância e é informada já no orçamento, sem surpresas."],
+            ["Existe taxa de entrega?", "A taxa varia conforme a distância e é informada já no orçamento. A data e o horário de entrega e retirada são combinados por mensagem."],
           ].map(([q, a], i) => (
             <details key={i} className="group py-4">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">{q}<span className="text-gold transition group-open:rotate-45">+</span></summary>
