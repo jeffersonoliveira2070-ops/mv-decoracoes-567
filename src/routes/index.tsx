@@ -16,6 +16,11 @@ const CIDADE = "Arapiraca - AL";
 const INSTAGRAM = "mv_decoracao1";
 const TELEFONE = "(82) 98769-3821";
 const WA_DIRECT = "https://wa.me/message/CGSSC2KWYNFTG1"; // link direto da conversa
+const PRECOS = [
+  { nome: "Festa na Mesa", valor: "R$ 60,00", obs: "" },
+  { nome: "Kit Pegue e Monte", valor: "R$ 100,00", obs: "" },
+  { nome: "Decoração Pronta", valor: "R$ 300,00", obs: "Valor final depende da localidade (frete)." },
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -178,6 +183,21 @@ function Index() {
               </Reveal>
             ))}
           </div>
+
+          <div className="mt-16 grid gap-6 md:grid-cols-3">
+            {PRECOS.map((p) => (
+              <Reveal key={p.nome} className="rounded-3xl border border-gold/40 bg-card p-7 text-center shadow-soft">
+                <h3 className="text-xl font-semibold">{p.nome}</h3>
+                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">a partir de</p>
+                <p className="font-display text-4xl font-semibold text-primary">{p.valor}</p>
+                {p.obs && <p className="mt-3 text-sm text-muted-foreground">{p.obs}</p>}
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mx-auto mt-8 max-w-2xl rounded-2xl bg-secondary px-6 py-4 text-center text-sm text-secondary-foreground">
+            Alugamos também <strong>peças separadas</strong> e montamos o kit de acordo com a necessidade do cliente.
+          </Reveal>
+          <div className="mt-10 text-center"><CTA /></div>
         </div>
       </section>
 

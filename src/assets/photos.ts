@@ -69,11 +69,18 @@ const cats: Record<number, Cat> = {
 
 export const fotos = F.map((a, i) => ({ n: i + 1, img: a.url as string, cat: cats[i + 1]! }));
 
-// Destaques
+import kit10 from "./kit-10.jpg.asset.json";
+import kit12 from "./kit-12.jpg.asset.json";
+import kit16 from "./kit-16.jpg.asset.json";
+import kit18 from "./kit-18.jpg.asset.json";
+import kit25 from "./kit-25.jpg.asset.json";
+import kit40 from "./kit-40.jpg.asset.json";
+
+// Destaques (versões tratadas para os cartões de kits)
 export const heroFoto = fotos[25]!.img;   // foto-26 — painel rosa "Happy Birthday"
-export const stitch = fotos[11]!.img;     // foto-12
-export const ursos = fotos[15]!.img;      // foto-16
-export const corinthians = fotos[9]!.img; // foto-10
-export const eleganteMarrom = fotos[24]!.img; // foto-25
-export const salaoBrancaDeNeves = fotos[39]!.img; // foto-40
-export const arcoNeon = fotos[17]!.img;   // foto-18
+export const stitch = kit12.url as string;     // foto-12
+export const ursos = kit16.url as string;      // foto-16
+export const corinthians = kit10.url as string; // foto-10
+export const eleganteMarrom = kit25.url as string; // foto-25
+export const salaoBrancaDeNeves = kit40.url as string; // foto-40
+export const arcoNeon = kit18.url as string;   // foto-18
