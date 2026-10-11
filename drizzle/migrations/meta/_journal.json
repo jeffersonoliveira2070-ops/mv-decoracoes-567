@@ -1,5 +1,13 @@
 {
   "version": "7",
   "dialect": "postgresql",
-  "entries": []
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791682251632,
+      "tag": "0000_create_avaliacoes_e_momentos",
+      "breakpoints": true
+    }
+  ]
 }

@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      avaliacoes: {
+        Row: {
+          aprovado: boolean
+          comentario: string
+          created_at: string
+          id: string
+          nome: string
+          nota: number
+        }
+        Insert: {
+          aprovado?: boolean
+          comentario: string
+          created_at?: string
+          id?: string
+          nome: string
+          nota: number
+        }
+        Update: {
+          aprovado?: boolean
+          comentario?: string
+          created_at?: string
+          id?: string
+          nome?: string
+          nota?: number
+        }
+        Relationships: []
+      }
+      momentos: {
+        Row: {
+          aprovado: boolean
+          created_at: string
+          id: string
+          legenda: string | null
+          media_type: string
+          media_url: string
+          nome: string
+        }
+        Insert: {
+          aprovado?: boolean
+          created_at?: string
+          id?: string
+          legenda?: string | null
+          media_type: string
+          media_url: string
+          nome: string
+        }
+        Update: {
+          aprovado?: boolean
+          created_at?: string
+          id?: string
+          legenda?: string | null
+          media_type?: string
+          media_url?: string
+          nome?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
