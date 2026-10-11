@@ -213,7 +213,6 @@ function Index() {
           <Reveal className="mx-auto mt-8 max-w-2xl rounded-2xl bg-secondary px-6 py-4 text-center text-sm text-secondary-foreground">
             Alugamos também <strong>peças separadas</strong> e montamos o kit de acordo com a necessidade do cliente.
           </Reveal>
-          <div className="mt-10 text-center"><CTA /></div>
         </div>
       </section>
 
@@ -232,7 +231,6 @@ function Index() {
             </button>
           ))}
         </div>
-        <div className="mt-10 text-center"><CTA /></div>
       </section>
       {lightbox && (
         <div className="fixed inset-0 z-50 grid place-items-center bg-foreground/80 p-4" onClick={() => setLightbox(null)}>
