@@ -178,7 +178,6 @@ function Index() {
             <span>As datas de <strong>entrega e retirada são combinadas por mensagem</strong> — a gente ajusta tudo ao horário da sua festa.</span>
           </span>
         </Reveal>
-        <div className="mt-10 text-center"><CTA /></div>
       </section>
 
       {/* Temas */}
@@ -191,9 +190,8 @@ function Index() {
                 <div className="aspect-[4/5] overflow-hidden">
                   <img src={t.img} loading="lazy" width={800} height={1008} alt={`Decoração ${t.nome}`} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
                 </div>
-                <div className="flex items-center justify-between gap-3 p-5">
+                <div className="p-5">
                   <h3 className="text-xl font-semibold">{t.nome}</h3>
-                  <a href={WA_DIRECT} target="_blank" rel="noreferrer" className="shrink-0 rounded-full bg-secondary px-4 py-2 text-xs font-medium text-secondary-foreground transition hover:bg-primary hover:text-primary-foreground">Quero este tema</a>
                 </div>
               </Reveal>
             ))}
@@ -254,7 +252,6 @@ function Index() {
               );
             })}
           </div>
-          <div className="mt-10 text-center"><CTA label="Consultar itens" /></div>
         </div>
       </section>
 
