@@ -57,7 +57,7 @@ function Reveal({ children, className = "" }: { children: React.ReactNode; class
 function CTA({ label = "Pedir orçamento" }: { label?: string }) {
   return (
     <a href={WA_DIRECT} target="_blank" rel="noreferrer"
-      className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow-soft transition hover:-translate-y-0.5 hover:opacity-95">
+      className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3 text-sm font-medium tracking-wide text-primary-foreground shadow-soft transition duration-300 hover:-translate-y-0.5 hover:shadow-lg">
       <MessageCircle className="h-4 w-4" /> {label}
     </a>
   );
@@ -201,11 +201,12 @@ function Index() {
 
           <div className="mt-16 grid gap-6 md:grid-cols-3">
             {PRECOS.map((p) => (
-              <Reveal key={p.nome} className="rounded-3xl border border-gold/40 bg-card p-7 text-center shadow-soft">
+              <Reveal key={p.nome} className="relative overflow-hidden rounded-3xl border border-gold/40 bg-card p-7 pt-9 text-center shadow-soft">
+                <span className="absolute inset-x-0 top-0 h-1 bg-gold-gradient" aria-hidden="true" />
                 <h3 className="text-xl font-semibold">{p.nome}</h3>
-                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">a partir de</p>
-                <p className="font-display text-4xl font-semibold text-primary">{p.valor}</p>
-                {p.obs && <p className="mt-3 text-sm text-muted-foreground">{p.obs}</p>}
+                <p className="mt-4 text-[0.65rem] font-medium uppercase tracking-[0.3em] text-muted-foreground">a partir de</p>
+                <p className="mt-1 font-display text-4xl font-semibold text-primary">{p.valor}</p>
+                {p.obs && <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{p.obs}</p>}
               </Reveal>
             ))}
           </div>
