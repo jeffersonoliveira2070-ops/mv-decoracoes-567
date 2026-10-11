@@ -4,7 +4,9 @@ import {
   Palette, MessageCircle, Truck, PackageCheck, Clock, Sparkles, Hammer, Heart,
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
+  Camera, Upload,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fotos, heroFoto, stitch, ursos, corinthians, eleganteMarrom, salaoBrancaDeNeves, arcoNeon,
 } from "@/assets/photos";
@@ -36,7 +38,7 @@ export const Route = createFileRoute("/")({
 
 const nav = [
   ["inicio", "Início"], ["como-funciona", "Como Funciona"], ["temas", "Temas"],
-  ["galeria", "Galeria"], ["depoimentos", "Depoimentos"], ["contato", "Contato"],
+  ["galeria", "Galeria"], ["depoimentos", "Depoimentos"], ["momentos", "Momentos"], ["avaliar", "Avaliar"], ["contato", "Contato"],
 ];
 
 const temas = [
@@ -84,12 +86,34 @@ function Index() {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [dep, setDep] = useState(0);
   const [copiado, setCopiado] = useState(false);
+  const [nota, setNota] = useState(0);
+  const [enviandoAv, setEnviandoAv] = useState(false);
+  const [avEnviada, setAvEnviada] = useState(false);
+  const [avaliacoes, setAvaliacoes] = useState<{ nome: string; nota: number; comentario: string }[]>([]);
+  const [momentos, setMomentos] = useState<{ id: string; nome: string; legenda: string | null; url: string; tipo: string }[]>([]);
+  const [enviandoMom, setEnviandoMom] = useState(false);
+  const [momEnviado, setMomEnviado] = useState(false);
 
   useEffect(() => {
     const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [filtro]);
+
+  useEffect(() => {
+    (async () => {
+      const { data: avs } = await supabase.from("avaliacoes").select("nome,nota,comentario").eq("aprovado", true).order("created_at", { ascending: false }).limit(12);
+      if (avs) setAvaliacoes(avs);
+      const { data: moms } = await supabase.from("momentos").select("id,nome,legenda,media_url,media_type").eq("aprovado", true).order("created_at", { ascending: false }).limit(24);
+      if (moms) {
+        const comUrl = await Promise.all(moms.map(async (m) => {
+          const { data } = await supabase.storage.from("momentos").createSignedUrl(m.media_url, 60 * 60 * 24 * 7);
+          return { id: m.id, nome: m.nome, legenda: m.legenda, url: data?.signedUrl ?? "", tipo: m.media_type };
+        }));
+        setMomentos(comUrl.filter((m) => m.url));
+      }
+    })();
+  }, []);
 
   const depoimentos = [
     { nome: "Juliana M.", texto: "Tudo chegou no horário, montado com muito capricho. A festa da minha filha ficou um sonho!", foto: fotos[25]!.img },
@@ -105,6 +129,34 @@ function Index() {
     const msg = `Olá! Meu nome é ${f.get("nome")}.\nTelefone: ${f.get("tel")}\nData do evento: ${f.get("data")}\nTipo de festa: ${f.get("tipo")}\nMensagem: ${f.get("msg")}`;
     try { await navigator.clipboard.writeText(msg); setCopiado(true); } catch { /* sem acesso à área de transferência */ }
     window.open(WA_DIRECT, "_blank");
+  }
+
+  async function enviarAvaliacao(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!nota) return;
+    setEnviandoAv(true);
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    const { error } = await supabase.from("avaliacoes").insert({ nome: String(f.get("nome")), nota, comentario: String(f.get("comentario")) });
+    setEnviandoAv(false);
+    if (!error) { setAvEnviada(true); form.reset(); setNota(0); }
+  }
+
+  async function enviarMomento(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    const file = f.get("arquivo") as File | null;
+    if (!file || file.size === 0) return;
+    setEnviandoMom(true);
+    const tipo = file.type.startsWith("video") ? "video" : "image";
+    const path = `${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g, "_")}`;
+    const up = await supabase.storage.from("momentos").upload(path, file);
+    if (!up.error) {
+      const { error } = await supabase.from("momentos").insert({ nome: String(f.get("nome")), legenda: String(f.get("legenda") || ""), media_url: path, media_type: tipo });
+      if (!error) { setMomEnviado(true); form.reset(); }
+    }
+    setEnviandoMom(false);
   }
 
   const input = "w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring";
