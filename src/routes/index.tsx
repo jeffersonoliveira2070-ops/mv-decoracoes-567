@@ -4,7 +4,9 @@ import {
   Palette, MessageCircle, Truck, PackageCheck, Clock, Sparkles, Hammer, Heart,
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
+  Camera, Upload,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fotos, heroFoto, stitch, ursos, corinthians, eleganteMarrom, salaoBrancaDeNeves, arcoNeon,
 } from "@/assets/photos";
@@ -36,7 +38,7 @@ export const Route = createFileRoute("/")({
 
 const nav = [
   ["inicio", "Início"], ["como-funciona", "Como Funciona"], ["temas", "Temas"],
-  ["galeria", "Galeria"], ["depoimentos", "Depoimentos"], ["contato", "Contato"],
+  ["galeria", "Galeria"], ["depoimentos", "Depoimentos"], ["momentos", "Momentos"], ["avaliar", "Avaliar"], ["contato", "Contato"],
 ];
 
 const temas = [
@@ -84,12 +86,34 @@ function Index() {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [dep, setDep] = useState(0);
   const [copiado, setCopiado] = useState(false);
+  const [nota, setNota] = useState(0);
+  const [enviandoAv, setEnviandoAv] = useState(false);
+  const [avEnviada, setAvEnviada] = useState(false);
+  const [avaliacoes, setAvaliacoes] = useState<{ nome: string; nota: number; comentario: string }[]>([]);
+  const [momentos, setMomentos] = useState<{ id: string; nome: string; legenda: string | null; url: string; tipo: string }[]>([]);
+  const [enviandoMom, setEnviandoMom] = useState(false);
+  const [momEnviado, setMomEnviado] = useState(false);
 
   useEffect(() => {
     const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: 0.12 });
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, [filtro]);
+
+  useEffect(() => {
+    (async () => {
+      const { data: avs } = await supabase.from("avaliacoes").select("nome,nota,comentario").eq("aprovado", true).order("created_at", { ascending: false }).limit(12);
+      if (avs) setAvaliacoes(avs);
+      const { data: moms } = await supabase.from("momentos").select("id,nome,legenda,media_url,media_type").eq("aprovado", true).order("created_at", { ascending: false }).limit(24);
+      if (moms) {
+        const comUrl = await Promise.all(moms.map(async (m) => {
+          const { data } = await supabase.storage.from("momentos").createSignedUrl(m.media_url, 60 * 60 * 24 * 7);
+          return { id: m.id, nome: m.nome, legenda: m.legenda, url: data?.signedUrl ?? "", tipo: m.media_type };
+        }));
+        setMomentos(comUrl.filter((m) => m.url));
+      }
+    })();
+  }, []);
 
   const depoimentos = [
     { nome: "Juliana M.", texto: "Tudo chegou no horário, montado com muito capricho. A festa da minha filha ficou um sonho!", foto: fotos[25]!.img },
@@ -105,6 +129,34 @@ function Index() {
     const msg = `Olá! Meu nome é ${f.get("nome")}.\nTelefone: ${f.get("tel")}\nData do evento: ${f.get("data")}\nTipo de festa: ${f.get("tipo")}\nMensagem: ${f.get("msg")}`;
     try { await navigator.clipboard.writeText(msg); setCopiado(true); } catch { /* sem acesso à área de transferência */ }
     window.open(WA_DIRECT, "_blank");
+  }
+
+  async function enviarAvaliacao(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!nota) return;
+    setEnviandoAv(true);
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    const { error } = await supabase.from("avaliacoes").insert({ nome: String(f.get("nome")), nota, comentario: String(f.get("comentario")) });
+    setEnviandoAv(false);
+    if (!error) { setAvEnviada(true); form.reset(); setNota(0); }
+  }
+
+  async function enviarMomento(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    const file = f.get("arquivo") as File | null;
+    if (!file || file.size === 0) return;
+    setEnviandoMom(true);
+    const tipo = file.type.startsWith("video") ? "video" : "image";
+    const path = `${crypto.randomUUID()}-${file.name.replace(/[^\w.-]/g, "_")}`;
+    const up = await supabase.storage.from("momentos").upload(path, file);
+    if (!up.error) {
+      const { error } = await supabase.from("momentos").insert({ nome: String(f.get("nome")), legenda: String(f.get("legenda") || ""), media_url: path, media_type: tipo });
+      if (!error) { setMomEnviado(true); form.reset(); }
+    }
+    setEnviandoMom(false);
   }
 
   const input = "w-full rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring";
@@ -286,6 +338,83 @@ function Index() {
               {depoimentos.map((_, i) => <span key={i} className={`h-2 rounded-full transition-all ${i === dep ? "w-6 bg-primary" : "w-2 bg-border"}`} />)}
               <button aria-label="Próximo" onClick={() => setDep((dep + 1) % 3)} className="rounded-full bg-secondary p-2"><ChevronRight className="h-4 w-4" /></button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Momentos dos clientes */}
+      <section id="momentos" className="bg-muted py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <Title kicker="Clientes" title="Momentos dos clientes" sub="Registros de quem já fez festa com a gente — envie o seu também!" />
+          {momentos.length > 0 && (
+            <div className="mb-12 columns-2 gap-4 md:columns-3">
+              {momentos.map((m) => (
+                <figure key={m.id} className="mb-4 overflow-hidden rounded-2xl bg-card shadow-soft">
+                  {m.tipo === "video"
+                    ? <video src={m.url} controls className="w-full" />
+                    : <img src={m.url} loading="lazy" alt={m.legenda || `Momento de ${m.nome}`} className="w-full object-cover" />}
+                  <figcaption className="p-3 text-sm">
+                    {m.legenda && <p className="text-muted-foreground">{m.legenda}</p>}
+                    <p className="mt-1 text-xs font-medium text-gold">{m.nome}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+          <Reveal className="mx-auto max-w-xl rounded-3xl bg-card p-7 shadow-soft">
+            <h3 className="flex items-center gap-2 text-xl font-semibold"><Camera className="text-primary" /> Envie seu momento</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Fez festa com a gente? Compartilhe uma foto ou vídeo (até 50 MB). Ele aparece aqui após aprovação.</p>
+            <form onSubmit={enviarMomento} className="mt-5 space-y-4">
+              <input name="nome" required placeholder="Seu nome" className={input} />
+              <input name="legenda" placeholder="Legenda (opcional)" className={input} />
+              <input name="arquivo" required type="file" accept="image/*,video/*" className={input} />
+              <button disabled={enviandoMom} className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60">
+                <Upload className="h-4 w-4" /> {enviandoMom ? "Enviando..." : "Enviar foto ou vídeo"}
+              </button>
+              {momEnviado && <p className="text-center text-xs text-muted-foreground">Recebido! Seu momento aparecerá aqui após aprovação. Obrigado! 💛</p>}
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Avalie sua experiência */}
+      <section id="avaliar" className="mx-auto max-w-6xl px-5 py-24">
+        <Title kicker="Sua opinião importa" title="Avalie sua experiência" sub="Conte como foi sua festa com a gente — sua nota ajuda outros clientes." />
+        <div className="grid gap-10 lg:grid-cols-2">
+          <Reveal className="rounded-3xl bg-card p-7 shadow-soft">
+            <form onSubmit={enviarAvaliacao} className="space-y-4">
+              <div className="flex items-center justify-center gap-2" role="radiogroup" aria-label="Sua nota">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button key={n} type="button" onClick={() => setNota(n)} aria-label={`${n} estrela${n > 1 ? "s" : ""}`}
+                    className="transition hover:scale-110">
+                    <Star className={`h-9 w-9 ${n <= nota ? "fill-current text-gold" : "text-border"}`} />
+                  </button>
+                ))}
+              </div>
+              <p className="text-center text-xs text-muted-foreground">{nota ? `Sua nota: ${nota} de 5` : "Toque nas estrelas para dar sua nota"}</p>
+              <input name="nome" required placeholder="Seu nome" className={input} />
+              <textarea name="comentario" required rows={4} placeholder="Conte como foi sua experiência" className={input} />
+              <button disabled={enviandoAv || !nota} className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60">
+                <Star className="h-4 w-4" /> {enviandoAv ? "Enviando..." : "Enviar avaliação"}
+              </button>
+              {avEnviada && <p className="text-center text-xs text-muted-foreground">Obrigado! Sua avaliação aparecerá aqui após aprovação. 💛</p>}
+            </form>
+          </Reveal>
+          <div className="space-y-4">
+            {avaliacoes.length === 0 && (
+              <Reveal className="rounded-3xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+                Seja o primeiro a avaliar! Sua nota aparecerá neste espaço.
+              </Reveal>
+            )}
+            {avaliacoes.map((a, i) => (
+              <Reveal key={i} className="rounded-3xl bg-card p-6 shadow-soft">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-medium">{a.nome}</p>
+                  <div className="flex gap-0.5 text-gold">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-4 w-4 ${s < a.nota ? "fill-current" : "text-border"}`} />)}</div>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">"{a.comentario}"</p>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
