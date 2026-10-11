@@ -342,6 +342,83 @@ function Index() {
         </div>
       </section>
 
+      {/* Momentos dos clientes */}
+      <section id="momentos" className="bg-muted py-24">
+        <div className="mx-auto max-w-6xl px-5">
+          <Title kicker="Clientes" title="Momentos dos clientes" sub="Registros de quem já fez festa com a gente — envie o seu também!" />
+          {momentos.length > 0 && (
+            <div className="mb-12 columns-2 gap-4 md:columns-3">
+              {momentos.map((m) => (
+                <figure key={m.id} className="mb-4 overflow-hidden rounded-2xl bg-card shadow-soft">
+                  {m.tipo === "video"
+                    ? <video src={m.url} controls className="w-full" />
+                    : <img src={m.url} loading="lazy" alt={m.legenda || `Momento de ${m.nome}`} className="w-full object-cover" />}
+                  <figcaption className="p-3 text-sm">
+                    {m.legenda && <p className="text-muted-foreground">{m.legenda}</p>}
+                    <p className="mt-1 text-xs font-medium text-gold">{m.nome}</p>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          )}
+          <Reveal className="mx-auto max-w-xl rounded-3xl bg-card p-7 shadow-soft">
+            <h3 className="flex items-center gap-2 text-xl font-semibold"><Camera className="text-primary" /> Envie seu momento</h3>
+            <p className="mt-2 text-sm text-muted-foreground">Fez festa com a gente? Compartilhe uma foto ou vídeo (até 50 MB). Ele aparece aqui após aprovação.</p>
+            <form onSubmit={enviarMomento} className="mt-5 space-y-4">
+              <input name="nome" required placeholder="Seu nome" className={input} />
+              <input name="legenda" placeholder="Legenda (opcional)" className={input} />
+              <input name="arquivo" required type="file" accept="image/*,video/*" className={input} />
+              <button disabled={enviandoMom} className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60">
+                <Upload className="h-4 w-4" /> {enviandoMom ? "Enviando..." : "Enviar foto ou vídeo"}
+              </button>
+              {momEnviado && <p className="text-center text-xs text-muted-foreground">Recebido! Seu momento aparecerá aqui após aprovação. Obrigado! 💛</p>}
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Avalie sua experiência */}
+      <section id="avaliar" className="mx-auto max-w-6xl px-5 py-24">
+        <Title kicker="Sua opinião importa" title="Avalie sua experiência" sub="Conte como foi sua festa com a gente — sua nota ajuda outros clientes." />
+        <div className="grid gap-10 lg:grid-cols-2">
+          <Reveal className="rounded-3xl bg-card p-7 shadow-soft">
+            <form onSubmit={enviarAvaliacao} className="space-y-4">
+              <div className="flex items-center justify-center gap-2" role="radiogroup" aria-label="Sua nota">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <button key={n} type="button" onClick={() => setNota(n)} aria-label={`${n} estrela${n > 1 ? "s" : ""}`}
+                    className="transition hover:scale-110">
+                    <Star className={`h-9 w-9 ${n <= nota ? "fill-current text-gold" : "text-border"}`} />
+                  </button>
+                ))}
+              </div>
+              <p className="text-center text-xs text-muted-foreground">{nota ? `Sua nota: ${nota} de 5` : "Toque nas estrelas para dar sua nota"}</p>
+              <input name="nome" required placeholder="Seu nome" className={input} />
+              <textarea name="comentario" required rows={4} placeholder="Conte como foi sua experiência" className={input} />
+              <button disabled={enviandoAv || !nota} className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:opacity-60">
+                <Star className="h-4 w-4" /> {enviandoAv ? "Enviando..." : "Enviar avaliação"}
+              </button>
+              {avEnviada && <p className="text-center text-xs text-muted-foreground">Obrigado! Sua avaliação aparecerá aqui após aprovação. 💛</p>}
+            </form>
+          </Reveal>
+          <div className="space-y-4">
+            {avaliacoes.length === 0 && (
+              <Reveal className="rounded-3xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
+                Seja o primeiro a avaliar! Sua nota aparecerá neste espaço.
+              </Reveal>
+            )}
+            {avaliacoes.map((a, i) => (
+              <Reveal key={i} className="rounded-3xl bg-card p-6 shadow-soft">
+                <div className="flex items-center justify-between gap-4">
+                  <p className="font-medium">{a.nome}</p>
+                  <div className="flex gap-0.5 text-gold">{Array.from({ length: 5 }).map((_, s) => <Star key={s} className={`h-4 w-4 ${s < a.nota ? "fill-current" : "text-border"}`} />)}</div>
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">"{a.comentario}"</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="mx-auto max-w-3xl px-5 py-24">
         <Title kicker="Dúvidas" title="Perguntas frequentes" />
