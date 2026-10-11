@@ -308,7 +308,6 @@ function Index() {
             </details>
           ))}
         </div>
-        <div className="mt-10 text-center"><CTA label="Tirar dúvidas no WhatsApp" /></div>
       </section>
 
       {/* Contato */}
