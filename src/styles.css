@@ -90,6 +90,8 @@
   --ring: oklch(0.62 0.13 12);
   --gradient-hero: linear-gradient(160deg, oklch(0.97 0.015 12), oklch(0.99 0.005 40));
   --gradient-gold: linear-gradient(135deg, oklch(0.8 0.1 82), oklch(0.66 0.11 70));
+  /* Gradient suave rosa-claro para a seção de galeria de temas */
+  --gradient-gallery: linear-gradient(180deg, oklch(0.975 0.018 14) 0%, oklch(0.968 0.022 12) 50%, oklch(0.978 0.012 14) 100%);
   --shadow-soft: 0 24px 55px -24px oklch(0.55 0.1 15 / 0.3);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -153,17 +155,50 @@
 }
 
 @layer base {
-  html { scroll-behavior: smooth; }
-  body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
-  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
-  section[id] { scroll-margin-top: 4.5rem; }
-  ::selection { background: var(--color-blush); color: var(--color-foreground); }
-  em { font-style: italic; }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+  section[id] {
+    scroll-margin-top: 4.5rem;
+  }
+  ::selection {
+    background: var(--color-blush);
+    color: var(--color-foreground);
+  }
+  em {
+    font-style: italic;
+  }
 }
-@utility bg-hero { background: var(--gradient-hero); }
-@utility bg-gold-gradient { background: var(--gradient-gold); }
-@utility shadow-soft { box-shadow: var(--shadow-soft); }
+@utility bg-hero {
+  background: var(--gradient-hero);
+}
+@utility bg-gold-gradient {
+  background: var(--gradient-gold);
+}
+@utility bg-gallery {
+  background: var(--gradient-gallery);
+}
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
 @utility reveal {
-  opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease;
-  &.in { opacity: 1; transform: none; }
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+  &.in {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -12,4 +12,17 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    server: {
+      host: true,
+      allowedHosts: ["mvdecoracoes.local", ".local", "localhost"],
+      proxy: {
+        "/__l5e": {
+          target: "https://pixel-perfect-builder-567.lovable.app",
+          changeOrigin: true,
+          secure: true,
+        },
+      },
+    },
+  },
 });
