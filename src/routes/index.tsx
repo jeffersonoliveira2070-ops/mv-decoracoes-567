@@ -198,6 +198,8 @@ function Index() {
     window.open(whatsappLink, "_blank");
   }
 
+  const handleEnviarContato = enviar;
+
   async function enviarAvaliacao(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!nota) return;
