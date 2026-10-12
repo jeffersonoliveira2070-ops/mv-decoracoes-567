@@ -3,6 +3,7 @@ import {
   supabase,
   isSupabaseConfigured,
   uploadMediaToStorage,
+  getMediaPublicUrl,
   type Momento,
 } from "@/lib/supabaseClient";
 import { toast } from "sonner";
@@ -442,19 +443,25 @@ export function MomentosManager() {
               >
                 {/* Mídia Preview */}
                 <div className="relative aspect-video w-full bg-slate-950">
-                  {isVideo ? (
-                    <video
-                      src={item.media_url}
-                      controls
-                      className="h-full w-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src={item.media_url}
-                      alt={item.nome || "Momento"}
-                      className="h-full w-full object-cover"
-                    />
-                  )}
+                  {(() => {
+                    const mediaSrc = getMediaPublicUrl(item.media_url, "momentos");
+                    return isVideo ? (
+                      <video
+                        src={mediaSrc}
+                        controls
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={mediaSrc}
+                        alt={item.nome || "Momento"}
+                        onError={(e) => {
+                          console.warn(`[MomentosManager] Erro ao carregar: ${mediaSrc}`);
+                        }}
+                        className="h-full w-full object-cover"
+                      />
+                    );
+                  })()}
 
                   <div className="absolute top-2 left-2 flex items-center gap-1.5">
                     <span className="rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-semibold text-white backdrop-blur flex items-center gap-1">

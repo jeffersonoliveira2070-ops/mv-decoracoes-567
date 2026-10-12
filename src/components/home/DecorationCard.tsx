@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MessageCircle, ZoomIn, Sparkles } from "lucide-react";
 import { formatWhatsappAvailabilityLink } from "@/lib/whatsapp";
+import { resolveAssetUrl } from "@/assets/photos";
 
 interface DecorationCardProps {
   id: string;
@@ -20,24 +21,56 @@ export function DecorationCard({
   onZoom,
   telefone,
 }: DecorationCardProps) {
+  const [currentSrc, setCurrentSrc] = useState(() => resolveAssetUrl(img));
   const [imageError, setImageError] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const whatsappUrl = formatWhatsappAvailabilityLink(nome, telefone);
+
+  useEffect(() => {
+    setCurrentSrc(resolveAssetUrl(img));
+    setImageError(false);
+    setLoaded(false);
+  }, [img]);
+
+  const handleImageError = () => {
+    console.warn(
+      `[MV Decorações - Galeria] Falha ao carregar imagem "${nome}" da URL: "${currentSrc}". Exibindo fallback elegante.`
+    );
+    setImageError(true);
+  };
+
+  const aspectClass =
+    aspect === "square"
+      ? "aspect-square"
+      : aspect === "tall"
+      ? "aspect-[3/4]"
+      : "aspect-[4/5]";
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-border/80 bg-card shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-xl sm:rounded-3xl">
       {/* ── Imagem principal — proporção fixa para eliminar espaços brancos ── */}
       <div
-        className="relative w-full aspect-[4/5] overflow-hidden bg-muted cursor-pointer"
-        onClick={() => onZoom(img, nome)}
+        className={`relative w-full ${aspectClass} overflow-hidden bg-muted cursor-pointer`}
+        onClick={() => onZoom(currentSrc, nome)}
       >
         {!imageError ? (
-          <img
-            src={img}
-            alt={`Decoração ${nome} - MV Decorações`}
-            loading="lazy"
-            onError={() => setImageError(true)}
-            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-          />
+          <>
+            {!loaded && (
+              <div className="absolute inset-0 animate-pulse bg-secondary/60 flex items-center justify-center">
+                <Sparkles className="h-5 w-5 text-gold/40 animate-spin" />
+              </div>
+            )}
+            <img
+              src={currentSrc}
+              alt={`Decoração ${nome} - MV Decorações`}
+              loading="lazy"
+              onLoad={() => setLoaded(true)}
+              onError={handleImageError}
+              className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
+                loaded ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          </>
         ) : (
           /* Placeholder elegante caso a imagem não carregue */
           <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-secondary via-card to-secondary p-6 text-center">

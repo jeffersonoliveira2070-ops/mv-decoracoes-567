@@ -1,7 +1,99 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Camera, Film, PlusCircle, Sparkles, ZoomIn, Play } from "lucide-react";
-import { supabase, isSupabaseConfigured, type Momento } from "@/lib/supabaseClient";
+import { supabase, isSupabaseConfigured, getMediaPublicUrl, type Momento } from "@/lib/supabaseClient";
 import { MomentUploadModal } from "./MomentUploadModal";
+
+function MomentCard({
+  m,
+  onSelect,
+}: {
+  m: Momento;
+  onSelect: (m: Momento) => void;
+}) {
+  const [loadError, setLoadError] = useState(false);
+  const isVideo = m.media_type === "video";
+  const url = getMediaPublicUrl(m.media_url, "momentos");
+
+  return (
+    <div className="group relative flex flex-col overflow-hidden rounded-3xl border border-border/80 bg-card shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/5 dark:bg-black/30">
+        {!loadError ? (
+          isVideo ? (
+            <div className="relative h-full w-full">
+              <video
+                src={url}
+                playsInline
+                controls
+                preload="metadata"
+                onError={() => {
+                  console.warn(`[MV Decorações - Momentos] Erro ao reproduzir vídeo: ${url}`);
+                  setLoadError(true);
+                }}
+                className="block h-full w-full object-cover"
+              />
+              <div className="pointer-events-none absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
+                <Film className="h-3 w-3 text-rose-400" />
+                <span>Vídeo</span>
+              </div>
+            </div>
+          ) : (
+            <div
+              className="relative h-full w-full cursor-pointer"
+              onClick={() => onSelect({ ...m, media_url: url })}
+            >
+              <img
+                src={url}
+                alt={m.legenda || m.nome || "Momento de cliente"}
+                loading="lazy"
+                onError={() => {
+                  console.warn(`[MV Decorações - Momentos] Erro ao carregar imagem: ${url}`);
+                  setLoadError(true);
+                }}
+                className="block h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              />
+              <div className="pointer-events-none absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
+                <Camera className="h-3 w-3 text-gold" />
+                <span>Foto</span>
+              </div>
+
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-foreground backdrop-blur-sm shadow-md">
+                  <ZoomIn className="h-5 w-5" />
+                </span>
+              </div>
+            </div>
+          )
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center bg-secondary/50 p-6 text-center text-muted-foreground">
+            <Camera className="h-8 w-8 text-gold/40 mb-2" />
+            <p className="text-xs font-medium text-foreground">{m.nome || "Momento de cliente"}</p>
+            <p className="text-[11px] text-muted-foreground mt-1">Mídia indisponível no momento</p>
+          </div>
+        )}
+      </div>
+
+      <div className="flex flex-1 flex-col justify-between p-5">
+        <div>
+          {m.nome && (
+            <p className="font-display text-sm font-bold text-foreground">
+              {m.nome}
+            </p>
+          )}
+          {m.legenda && (
+            <p className="mt-1 text-xs text-muted-foreground leading-relaxed line-clamp-2">
+              "{m.legenda}"
+            </p>
+          )}
+        </div>
+
+        <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-3 text-[10px] text-muted-foreground">
+          <span>MV Decorações • Arapiraca</span>
+          <span className="font-medium text-emerald-600 dark:text-emerald-400">Verificado</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function ClientMomentsSection() {
   const [momentos, setMomentos] = useState<Momento[]>([]);
@@ -105,75 +197,13 @@ export function ClientMomentsSection() {
           ) : (
             /* Grid com Mídias Aprovadas */
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {momentos.map((m) => {
-                const isVideo = m.media_type === "video";
-
-                return (
-                  <div
-                    key={m.id}
-                    className="group relative flex flex-col overflow-hidden rounded-3xl border border-border/80 bg-card shadow-soft transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                  >
-                    {/* Mídia Container */}
-                    <div className="relative aspect-[4/5] w-full overflow-hidden bg-black/5 dark:bg-black/30">
-                      {isVideo ? (
-                        <div className="relative h-full w-full">
-                          <video
-                            src={m.media_url}
-                            playsInline
-                            controls
-                            preload="metadata"
-                            className="block h-full w-full object-cover"
-                          />
-                          <div className="pointer-events-none absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
-                            <Film className="h-3 w-3 text-rose-400" />
-                            <span>Vídeo</span>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="relative h-full w-full cursor-pointer" onClick={() => setActiveMedia(m)}>
-                          <img
-                            src={m.media_url}
-                            alt={m.legenda || m.nome || "Momento de cliente"}
-                            loading="lazy"
-                            className="block h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                          />
-                          <div className="pointer-events-none absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-black/60 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md">
-                            <Camera className="h-3 w-3 text-gold" />
-                            <span>Foto</span>
-                          </div>
-
-                          <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-foreground backdrop-blur-sm shadow-md">
-                              <ZoomIn className="h-5 w-5" />
-                            </span>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Informações da Mídia */}
-                    <div className="flex flex-1 flex-col justify-between p-5">
-                      <div>
-                        {m.nome && (
-                          <p className="font-display text-sm font-bold text-foreground">
-                            {m.nome}
-                          </p>
-                        )}
-                        {m.legenda && (
-                          <p className="mt-1 text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                            "{m.legenda}"
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-3 text-[10px] text-muted-foreground">
-                        <span>MV Decorações • Arapiraca</span>
-                        <span className="font-medium text-emerald-600 dark:text-emerald-400">Verificado</span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+              {momentos.map((m) => (
+                <MomentCard
+                  key={m.id}
+                  m={m}
+                  onSelect={(selected) => setActiveMedia(selected)}
+                />
+              ))}
             </div>
           )}
         </div>

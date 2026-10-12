@@ -46,4 +46,12 @@ describe("MV Decorações - Regras de Negócio e WhatsApp", () => {
     expect(nomesPorFoto[16]).toBe("Chá de Bebê Ursinho Baloeiro");
     expect(nomesPorFoto[26]).toBe("Painel Happy Birthday Rosé");
   });
+
+  it("garante que todas as fotos da galeria possuem URLs válidas que iniciam com http ou https", () => {
+    expect(fotos.length).toBe(45);
+    for (const f of fotos) {
+      expect(f.img).toMatch(/^https?:\/\//);
+      expect(f.img).not.toContain("SEU_PROJETO");
+    }
+  });
 });

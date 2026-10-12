@@ -4,8 +4,15 @@
 
 import { createClient } from "@supabase/supabase-js";
 
-const rawUrl = (import.meta.env["VITE_SUPABASE_URL"] as string) || "";
-const rawKey = (import.meta.env["VITE_SUPABASE_ANON_KEY"] as string) || "";
+const rawUrl =
+  (import.meta.env["VITE_SUPABASE_URL"] as string) ||
+  (import.meta.env["SUPABASE_URL"] as string) ||
+  "";
+const rawKey =
+  (import.meta.env["VITE_SUPABASE_PUBLISHABLE_KEY"] as string) ||
+  (import.meta.env["VITE_SUPABASE_ANON_KEY"] as string) ||
+  (import.meta.env["SUPABASE_PUBLISHABLE_KEY"] as string) ||
+  "";
 
 export const isSupabaseConfigured = (): boolean => {
   return Boolean(
@@ -28,6 +35,25 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: false,
   },
 });
+
+/**
+ * Converte um caminho de storage do Supabase em uma URL pública acessível no navegador.
+ * Se já for uma URL completa (http/https/data), retorna a própria URL.
+ */
+export function getMediaPublicUrl(urlOrPath: string | null | undefined, bucketName: string = "momentos"): string {
+  if (!urlOrPath) return "";
+  if (
+    urlOrPath.startsWith("http://") ||
+    urlOrPath.startsWith("https://") ||
+    urlOrPath.startsWith("data:") ||
+    urlOrPath.startsWith("blob:")
+  ) {
+    return urlOrPath;
+  }
+  const cleanPath = urlOrPath.replace(/^\/+/, "");
+  const { data } = supabase.storage.from(bucketName).getPublicUrl(cleanPath);
+  return data?.publicUrl || urlOrPath;
+}
 
 // ====== TIPOS DO BANCO (Conforme estrutura existente no Supabase) ======
 

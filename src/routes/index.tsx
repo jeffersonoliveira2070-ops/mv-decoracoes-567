@@ -37,6 +37,7 @@ import {
   eleganteMarrom,
   salaoBrancaDeNeves,
   arcoNeon,
+  resolveAssetUrl,
 } from "@/assets/photos";
 import logoAsset from "@/assets/logo.png.asset.json";
 import { useSiteContent } from "@/lib/contentStore";
@@ -155,7 +156,7 @@ function Index() {
             aria-label={`Ir para o início de ${activeNome}`}
           >
             <img
-              src={logoAsset.url}
+              src={resolveAssetUrl(logoAsset.url)}
               alt={`Logotipo da ${activeNome}`}
               style={{ width: `${logoSize}px`, height: `${logoSize}px` }}
               className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40"
@@ -781,7 +782,7 @@ function Index() {
           {/* Logo e Nome */}
           <div className="flex items-center gap-3">
             <img
-              src={logoAsset.url}
+              src={resolveAssetUrl(logoAsset.url)}
               alt={`Logotipo ${activeNome}`}
               style={{ width: `${logoSize}px`, height: `${logoSize}px` }}
               className="shrink-0 rounded-full object-cover ring-1 ring-gold/40"

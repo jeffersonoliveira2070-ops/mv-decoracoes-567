@@ -191,12 +191,26 @@ export const nomesPorFoto: Record<number, string> = {
   45: "50 Anos Dourado Real",
 };
 
+const LOVABLE_CDN_ORIGIN = "https://pixel-perfect-builder-567.lovable.app";
+
+/**
+ * Resolve caminhos de assets do Lovable (ex: /__l5e/...) para a URL pública do CDN,
+ * garantindo carregamento direto em qualquer host (localhost, mvdecoracoes.local ou produção).
+ */
+export function resolveAssetUrl(url: string | undefined | null): string {
+  if (!url) return "";
+  if (url.startsWith("/__l5e/")) {
+    return `${LOVABLE_CDN_ORIGIN}${url}`;
+  }
+  return url;
+}
+
 export const fotos = F.map((a, i) => {
   const n = i + 1;
   const cat = cats[n] || "Infantil";
   return {
     n,
-    img: a.url as string,
+    img: resolveAssetUrl(a.url as string),
     cat,
     nome: nomesPorFoto[n] || `Decoração ${cat} #${n}`,
   };
@@ -210,10 +224,10 @@ import kit25 from "./kit-25.jpg.asset.json";
 import kit40 from "./kit-40.jpg.asset.json";
 
 // Destaques (versões tratadas para os cartões de kits)
-export const heroFoto = fotos[25]!.img; // foto-26 — painel rosa "Happy Birthday"
-export const stitch = kit12.url as string; // foto-12
-export const ursos = kit16.url as string; // foto-16
-export const corinthians = kit10.url as string; // foto-10
-export const eleganteMarrom = kit25.url as string; // foto-25
-export const salaoBrancaDeNeves = kit40.url as string; // foto-40
-export const arcoNeon = kit18.url as string; // foto-18
+export const heroFoto = resolveAssetUrl(fotos[25]!.img); // foto-26 — painel rosa "Happy Birthday"
+export const stitch = resolveAssetUrl(kit12.url as string); // foto-12
+export const ursos = resolveAssetUrl(kit16.url as string); // foto-16
+export const corinthians = resolveAssetUrl(kit10.url as string); // foto-10
+export const eleganteMarrom = resolveAssetUrl(kit25.url as string); // foto-25
+export const salaoBrancaDeNeves = resolveAssetUrl(kit40.url as string); // foto-40
+export const arcoNeon = resolveAssetUrl(kit18.url as string); // foto-18
