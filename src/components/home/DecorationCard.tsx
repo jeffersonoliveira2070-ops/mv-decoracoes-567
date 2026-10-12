@@ -71,7 +71,7 @@ export function DecorationCard({
               onLoad={() => setLoaded(true)}
               onError={handleImageError}
               className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
-                loaded ? "opacity-100" : "opacity-0"
+                "opacity-100"
               }`}
             />
           </>
