@@ -437,14 +437,8 @@ function Index() {
             >
               <X className="h-5 w-5" />
             </button>
-          ))}
+            <img src={lightbox} alt="Foto ampliada" className="max-h-[85vh] w-auto rounded-2xl" />
           </div>
-          <div className="mt-10 text-center"><CTA /></div>
-        </section>
-      {lightbox && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-foreground/80 p-4" onClick={() => setLightbox(null)}>
-          <button aria-label="Fechar" className="absolute right-5 top-5 text-background"><X /></button>
-          <img src={lightbox} alt="Foto ampliada" className="max-h-[88vh] rounded-2xl" />
         </div>
       )}
 
