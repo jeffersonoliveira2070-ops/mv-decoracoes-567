@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MessageCircle, ZoomIn, Sparkles } from "lucide-react";
 import { formatWhatsappAvailabilityLink } from "@/lib/whatsapp";
 import { resolveAssetUrl } from "@/assets/photos";
@@ -24,12 +24,15 @@ export function DecorationCard({
   const [currentSrc, setCurrentSrc] = useState(() => resolveAssetUrl(img));
   const [imageError, setImageError] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
   const whatsappUrl = formatWhatsappAvailabilityLink(nome, telefone);
 
   useEffect(() => {
     setCurrentSrc(resolveAssetUrl(img));
     setImageError(false);
-    setLoaded(false);
+    const el = imgRef.current;
+    if (el && el.complete && el.naturalWidth > 0) setLoaded(true);
+    else setLoaded(false);
   }, [img]);
 
   const handleImageError = () => {
@@ -61,13 +64,14 @@ export function DecorationCard({
               </div>
             )}
             <img
+              ref={imgRef}
               src={currentSrc}
               alt={`Decoração ${nome} - MV Decorações`}
               loading="lazy"
               onLoad={() => setLoaded(true)}
               onError={handleImageError}
               className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
-                loaded ? "opacity-100" : "opacity-0"
+                "opacity-100"
               }`}
             />
           </>

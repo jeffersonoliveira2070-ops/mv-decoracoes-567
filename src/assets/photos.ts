@@ -191,7 +191,6 @@ export const nomesPorFoto: Record<number, string> = {
   45: "50 Anos Dourado Real",
 };
 
-const LOVABLE_CDN_ORIGIN = "https://pixel-perfect-builder-567.lovable.app";
 
 /**
  * Resolve caminhos de assets do Lovable (ex: /__l5e/...) para a URL pública do CDN,
@@ -199,9 +198,6 @@ const LOVABLE_CDN_ORIGIN = "https://pixel-perfect-builder-567.lovable.app";
  */
 export function resolveAssetUrl(url: string | undefined | null): string {
   if (!url) return "";
-  if (url.startsWith("/__l5e/")) {
-    return `${LOVABLE_CDN_ORIGIN}${url}`;
-  }
   return url;
 }
 
