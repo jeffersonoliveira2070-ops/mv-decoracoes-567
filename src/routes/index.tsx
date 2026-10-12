@@ -4,7 +4,7 @@ import {
   Palette, MessageCircle, Truck, PackageCheck, Clock, Sparkles, Hammer, Heart,
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
-  Layers, Camera, Upload, Settings, Calendar,
+  Layers, Camera, Upload, Settings, Calendar, ShieldCheck,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
