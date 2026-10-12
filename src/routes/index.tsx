@@ -4,7 +4,10 @@ import {
   Palette, MessageCircle, Truck, PackageCheck, Clock, Sparkles, Hammer, Heart,
   Star, Instagram, Phone, MapPin, Menu, X, ChevronLeft, ChevronRight,
   Frame, Table2, Flower2, PartyPopper, UtensilsCrossed, Columns3, Gem,
+  Layers, Camera, Upload, Settings, Calendar, ShieldCheck,
 } from "lucide-react";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 import {
   fotos,
   heroFoto,
@@ -101,11 +104,62 @@ function Title({ kicker, title, sub }: { kicker: string; title: string; sub?: st
 }
 
 function Index() {
-  const [open, setOpen] = useState(false);
+  const { content } = useSiteContent();
+  const activeNome = content.business.nome;
+  const activeCidade = content.business.cidade;
+  const activeInstagram = content.business.instagram;
+  const activeTelefone = content.business.telefone;
+  const activeWa = content.business.waDirect;
+
+  const [menuMobileOpen, setMenuMobileOpen] = useState(false);
   const [filtro, setFiltro] = useState("Todas");
   const [lightbox, setLightbox] = useState<string | null>(null);
   const [dep, setDep] = useState(0);
-  const [copiado, setCopiado] = useState(false);
+  const [mensagemCopiada, setMensagemCopiada] = useState(false);
+  const [nota, setNota] = useState(0);
+  const [enviandoAv, setEnviandoAv] = useState(false);
+  const [avEnviada, setAvEnviada] = useState(false);
+  const [enviandoMom, setEnviandoMom] = useState(false);
+  const [momEnviado, setMomEnviado] = useState(false);
+  const [avaliacoes, setAvaliacoes] = useState<{ nome: string; nota: number; comentario: string }[]>([]);
+  const [momentos, setMomentos] = useState<{ id: string; nome: string; legenda: string; url: string; tipo: string }[]>([]);
+
+  const input =
+    "w-full rounded-2xl border border-input bg-background px-4 py-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20";
+
+  useEffect(() => {
+    supabase
+      .from("avaliacoes")
+      .select("nome, nota, comentario")
+      .eq("aprovado", true)
+      .order("created_at", { ascending: false })
+      .then(({ data }) => {
+        if (data) setAvaliacoes(data);
+      });
+    supabase
+      .from("momentos")
+      .select("id, nome, legenda, media_url, media_type")
+      .eq("aprovado", true)
+      .order("created_at", { ascending: false })
+      .then(async ({ data }) => {
+        if (!data) return;
+        const comUrl = await Promise.all(
+          data.map(async (m) => {
+            const { data: signed } = await supabase.storage
+              .from("momentos")
+              .createSignedUrl(m.media_url, 60 * 60);
+            return {
+              id: m.id,
+              nome: m.nome ?? "",
+              legenda: m.legenda ?? "",
+              url: signed?.signedUrl ?? "",
+              tipo: m.media_type === "video" ? "video" : "imagem",
+            };
+          }),
+        );
+        setMomentos(comUrl.filter((m) => m.url));
+      });
+  }, []);
 
   useEffect(() => {
     const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && e.target.classList.add("in")), { threshold: 0.12 });
@@ -143,6 +197,8 @@ function Index() {
     const whatsappLink = formatWhatsappGeneralLink(activeTelefone, textoFormatado);
     window.open(whatsappLink, "_blank");
   }
+
+  const handleEnviarContato = enviar;
 
   async function enviarAvaliacao(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -437,14 +493,8 @@ function Index() {
             >
               <X className="h-5 w-5" />
             </button>
-          ))}
+            <img src={lightbox} alt="Foto ampliada" className="max-h-[85vh] w-auto rounded-2xl" />
           </div>
-          <div className="mt-10 text-center"><CTA /></div>
-        </section>
-      {lightbox && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-foreground/80 p-4" onClick={() => setLightbox(null)}>
-          <button aria-label="Fechar" className="absolute right-5 top-5 text-background"><X /></button>
-          <img src={lightbox} alt="Foto ampliada" className="max-h-[88vh] rounded-2xl" />
         </div>
       )}
 
