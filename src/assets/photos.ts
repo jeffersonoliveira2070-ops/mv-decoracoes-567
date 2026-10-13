@@ -149,7 +149,7 @@ export const nomesPorFoto: Record<number, string> = {
   3: "Safari Baby Menino",
   4: "Mickey Mouse Tradicional",
   5: "Minnie Rosa & Dourado",
-  6: "Patrulha Canina Aventura",
+  6: "Homem-Aranha",
   7: "Fazendinha do Menino",
   8: "Rosé Gold & Balões Orgânicos",
   9: "Dourado Glamour Adulto",
