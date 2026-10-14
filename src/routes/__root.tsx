@@ -116,6 +116,21 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+function DevAuditoriaFloatingButton() {
+  return (
+    <div className="fixed bottom-4 left-4 z-50">
+      <Link
+        to="/auditoria"
+        className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-900/90 text-amber-300 border border-amber-500/40 text-xs font-semibold shadow-lg backdrop-blur-sm hover:bg-gray-800 hover:border-amber-400 transition"
+        title="Página temporária de auditoria visual de temas [DEV]"
+      >
+        <span>🔍 Auditoria de Fotos</span>
+        <span className="bg-amber-400 text-black px-1.5 py-0.2 rounded text-[10px] font-mono font-bold">DEV</span>
+      </Link>
+    </div>
+  );
+}
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -124,6 +139,7 @@ function RootComponent() {
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
       <Toaster position="top-right" richColors />
+      {import.meta.env.DEV && <DevAuditoriaFloatingButton />}
     </QueryClientProvider>
   );
 }
