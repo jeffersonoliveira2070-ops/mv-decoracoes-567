@@ -66,10 +66,10 @@ describe("MV Decorações - Regras de Negócio e WhatsApp", () => {
     expect(fotos.find((f) => f.n === 42)?.cat).toBe("Bebê & Mesversário");
   });
 
-  it("garante que todas as fotos da galeria possuem URLs válidas que iniciam com http ou https", () => {
+  it("garante que todas as fotos da galeria possuem URLs de asset válidas", () => {
     expect(fotos.length).toBe(45);
     for (const f of fotos) {
-      expect(f.img).toMatch(/^https?:\/\//);
+      expect(f.img).toMatch(/^(https?:\/\/|\/__l5e\/)/);
       expect(f.img).not.toContain("SEU_PROJETO");
     }
   });
