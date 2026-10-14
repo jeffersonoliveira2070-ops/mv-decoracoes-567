@@ -78,7 +78,7 @@ describe("MV Decorações - Regras de Negócio e WhatsApp", () => {
     const antigo = JSON.parse(JSON.stringify(getStoredContent())) as SiteContent;
     antigo.gallery.fotos = antigo.gallery.fotos.map((f) => ({
       ...f,
-      nome: f.n === 44 ? "Nome Antigo da Auditoria" : f.nome,
+      nome: f.n === 44 ? "Nome Antigo da Auditoria" : f.nome ?? "Sem nome",
       cat: f.n === 44 ? "Adulto" : f.cat,
     }));
     localStorage.setItem(CHAVE, JSON.stringify(antigo));
