@@ -554,7 +554,9 @@ export function getStoredContent(): SiteContent {
         ...DEFAULT_SITE_CONTENT.gallery,
         ...(parsed.gallery || {}),
         categories: parsed.gallery?.categories || DEFAULT_SITE_CONTENT.gallery.categories,
-        fotos: parsed.gallery?.fotos || DEFAULT_SITE_CONTENT.gallery.fotos,
+        fotos: withDefinitiveGalleryNames(
+          parsed.gallery?.fotos || DEFAULT_SITE_CONTENT.gallery.fotos,
+        ),
       },
       rentalSection: {
         ...DEFAULT_SITE_CONTENT.rentalSection,
