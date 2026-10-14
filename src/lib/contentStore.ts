@@ -509,6 +509,20 @@ const STORAGE_KEY = "mv_decoracoes_cms_content_v2";
 const EVENT_NAME = "mv_decoracoes_content_updated";
 
 /**
+ * Nomes e categorias das fotos do catálogo são definitivos: vêm de
+ * src/assets/photos.ts (conferidos pelo cliente). Rascunhos antigos salvos no
+ * LocalStorage não podem sobrescrevê-los.
+ */
+const FOTOS_DEFINITIVAS = new Map(defaultFotos.map((f) => [f.n, f]));
+
+export function withDefinitiveGalleryNames(galleryFotos: GalleryPhotoItem[]): GalleryPhotoItem[] {
+  return galleryFotos.map((f) => {
+    const base = FOTOS_DEFINITIVAS.get(f.n);
+    return base ? { ...f, nome: base.nome, cat: base.cat } : f;
+  });
+}
+
+/**
  * Carrega o conteúdo salvo no LocalStorage com mesclagem segura nos padrões
  */
 export function getStoredContent(): SiteContent {
