@@ -6,6 +6,7 @@ import {
   DEFAULT_PHONE,
 } from "@/lib/whatsapp";
 import { nomesPorFoto, fotos } from "@/assets/photos";
+import { getStoredContent, type SiteContent } from "@/lib/contentStore";
 
 describe("MV Decorações - Regras de Negócio e WhatsApp", () => {
   it("normaliza corretamente o número comercial para padrão internacional (55 + DDD + Número)", () => {
@@ -71,5 +72,21 @@ describe("MV Decorações - Regras de Negócio e WhatsApp", () => {
       expect(f.img).toMatch(/^https?:\/\//);
       expect(f.img).not.toContain("SEU_PROJETO");
     }
+  });
+  it("não deixa nomes antigos salvos no navegador sobrescreverem os nomes definitivos", () => {
+    const CHAVE = "mv_decoracoes_cms_content_v2";
+    const antigo = JSON.parse(JSON.stringify(getStoredContent())) as SiteContent;
+    antigo.gallery.fotos = antigo.gallery.fotos.map((f) => ({
+      ...f,
+      nome: f.n === 44 ? "Nome Antigo da Auditoria" : f.nome,
+      cat: f.n === 44 ? "Adulto" : f.cat,
+    }));
+    localStorage.setItem(CHAVE, JSON.stringify(antigo));
+
+    const recarregado = getStoredContent();
+    expect(recarregado.gallery.fotos.find((f) => f.n === 44)?.nome).toBe("Jesus");
+    expect(recarregado.gallery.fotos.find((f) => f.n === 44)?.cat).toBe("Infantil");
+
+    localStorage.removeItem(CHAVE);
   });
 });
