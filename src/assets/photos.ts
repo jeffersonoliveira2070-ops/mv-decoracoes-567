@@ -1,8 +1,99 @@
-// Fotos reais da MV Decorações servidas pela pasta public/fotos.
+// Fotos reais enviadas pelo cliente (45 fotos), servidas via CDN.
+import foto01 from "./foto-01.jpg.asset.json";
+import foto02 from "./foto-02.jpg.asset.json";
+import foto03 from "./foto-03.jpg.asset.json";
+import foto04 from "./foto-04.jpg.asset.json";
+import foto05 from "./foto-05.jpg.asset.json";
+import foto06 from "./foto-06.jpg.asset.json";
+import foto07 from "./foto-07.jpg.asset.json";
+import foto08 from "./foto-08.jpg.asset.json";
+import foto09 from "./foto-09.jpg.asset.json";
+import foto10 from "./foto-10.jpg.asset.json";
+import foto11 from "./foto-11.jpg.asset.json";
+import foto12 from "./foto-12.jpg.asset.json";
+import foto13 from "./foto-13.jpg.asset.json";
+import foto14 from "./foto-14.jpg.asset.json";
+import foto15 from "./foto-15.jpg.asset.json";
+import foto16 from "./foto-16.jpg.asset.json";
+import foto17 from "./foto-17.jpg.asset.json";
+import foto18 from "./foto-18.jpg.asset.json";
+import foto19 from "./foto-19.jpg.asset.json";
+import foto20 from "./foto-20.jpg.asset.json";
+import foto21 from "./foto-21.jpg.asset.json";
+import foto22 from "./foto-22.jpg.asset.json";
+import foto23 from "./foto-23.jpg.asset.json";
+import foto24 from "./foto-24.jpg.asset.json";
+import foto25 from "./foto-25.jpg.asset.json";
+import foto26 from "./foto-26.jpg.asset.json";
+import foto27 from "./foto-27.jpg.asset.json";
+import foto28 from "./foto-28.jpg.asset.json";
+import foto29 from "./foto-29.jpg.asset.json";
+import foto30 from "./foto-30.jpg.asset.json";
+import foto31 from "./foto-31.jpg.asset.json";
+import foto32 from "./foto-32.jpg.asset.json";
+import foto33 from "./foto-33.jpg.asset.json";
+import foto34 from "./foto-34.jpg.asset.json";
+import foto35 from "./foto-35.jpg.asset.json";
+import foto36 from "./foto-36.jpg.asset.json";
+import foto37 from "./foto-37.jpg.asset.json";
+import foto38 from "./foto-38.jpg.asset.json";
+import foto39 from "./foto-39.jpg.asset.json";
+import foto40 from "./foto-40.jpg.asset.json";
+import foto41 from "./foto-41.jpg.asset.json";
+import foto42 from "./foto-42.jpg.asset.json";
+import foto43 from "./foto-43.jpg.asset.json";
+import foto44 from "./foto-44.jpg.asset.json";
+import foto45 from "./foto-45.jpg.asset.json";
 
 export type Cat = "Infantil" | "Bebê & Mesversário" | "Esportes" | "Adulto";
 
-const F = Array.from({ length: 45 }, (_, i) => `/fotos/foto-${String(i + 1).padStart(2, "0")}.jpg`);
+const F = [
+  foto01,
+  foto02,
+  foto03,
+  foto04,
+  foto05,
+  foto06,
+  foto07,
+  foto08,
+  foto09,
+  foto10,
+  foto11,
+  foto12,
+  foto13,
+  foto14,
+  foto15,
+  foto16,
+  foto17,
+  foto18,
+  foto19,
+  foto20,
+  foto21,
+  foto22,
+  foto23,
+  foto24,
+  foto25,
+  foto26,
+  foto27,
+  foto28,
+  foto29,
+  foto30,
+  foto31,
+  foto32,
+  foto33,
+  foto34,
+  foto35,
+  foto36,
+  foto37,
+  foto38,
+  foto39,
+  foto40,
+  foto41,
+  foto42,
+  foto43,
+  foto44,
+  foto45,
+];
 
 const cats: Record<number, Cat> = {
   1: "Infantil",
@@ -101,9 +192,13 @@ export const nomesPorFoto: Record<number, string> = {
 };
 
 
-/** Resolve caminhos de fotos locais publicados em /public/fotos. */
+/**
+ * Resolve caminhos de assets do Lovable (ex: /__l5e/...) para a URL pública do CDN,
+ * garantindo carregamento direto em qualquer host (localhost, mvdecoracoes.local ou produção).
+ */
 export function resolveAssetUrl(url: string | undefined | null): string {
-  return url || "";
+  if (!url) return "";
+  return url;
 }
 
 export const fotos = F.map((a, i) => {
@@ -111,18 +206,25 @@ export const fotos = F.map((a, i) => {
   const cat = cats[n] || "Infantil";
   return {
     n,
-    img: a,
+    img: resolveAssetUrl(a.url as string),
     cat,
     nome: nomesPorFoto[n] || `Decoração ${cat} #${n}`,
   };
 });
 
 
+import kit10 from "./kit-10.jpg.asset.json";
+import kit12 from "./kit-12.jpg.asset.json";
+import kit16 from "./kit-16.jpg.asset.json";
+import kit18 from "./kit-18.jpg.asset.json";
+import kit25 from "./kit-25.jpg.asset.json";
+import kit40 from "./kit-40.jpg.asset.json";
+
 // Destaques (versões tratadas para os cartões de kits)
 export const heroFoto = resolveAssetUrl(fotos[25]!.img); // foto-26 — painel rosa "Happy Birthday"
-export const stitch = "/fotos/foto-12.jpg"; // foto-12
-export const ursos = "/fotos/foto-16.jpg"; // foto-16
-export const corinthians = "/fotos/foto-10.jpg"; // foto-10
-export const eleganteMarrom = "/fotos/foto-25.jpg"; // foto-25
-export const salaoBrancaDeNeves = "/fotos/foto-40.jpg"; // foto-40
-export const arcoNeon = "/fotos/foto-18.jpg"; // foto-18
+export const stitch = resolveAssetUrl(kit12.url as string); // foto-12
+export const ursos = resolveAssetUrl(kit16.url as string); // foto-16
+export const corinthians = resolveAssetUrl(kit10.url as string); // foto-10
+export const eleganteMarrom = resolveAssetUrl(kit25.url as string); // foto-25
+export const salaoBrancaDeNeves = resolveAssetUrl(kit40.url as string); // foto-40
+export const arcoNeon = resolveAssetUrl(kit18.url as string); // foto-18
