@@ -46,7 +46,19 @@ type EditableItem = {
 };
 
 const CATEGORIAS: Cat[] = ["Infantil", "Bebê & Mesversário", "Esportes", "Adulto"];
-const STORAGE_KEY = "mv_auditoria_fotos_draft_v1";
+// v2: nomes e categorias definitivos vêm de src/assets/photos.ts.
+const STORAGE_KEY = "mv_auditoria_fotos_draft_v2";
+const LEGACY_STORAGE_KEY = "mv_auditoria_fotos_draft_v1";
+
+// Rascunhos antigos (v1) guardavam nomes superados; removidos para que não
+// sobrescrevam os valores definitivos do catálogo.
+if (typeof window !== "undefined") {
+  try {
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
+  } catch {
+    // storage indisponível
+  }
+}
 
 // ─── Rota ─────────────────────────────────────────────────────────────────────
 export const Route = createFileRoute("/auditoria")({
