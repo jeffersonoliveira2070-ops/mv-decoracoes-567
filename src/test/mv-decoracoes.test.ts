@@ -40,11 +40,29 @@ describe("MV Decorações - Regras de Negócio e WhatsApp", () => {
     }
   });
 
-  it("mapeia os nomes específicos das fotos corretamente", () => {
-    expect(nomesPorFoto[1]).toBe("Homem-Aranha Clássico");
+  it("mapeia os nomes definitivos das fotos corretamente", () => {
+    expect(nomesPorFoto[1]).toBe("Homem-Aranha");
+    expect(nomesPorFoto[2]).toBe("Patrulha Canina");
     expect(nomesPorFoto[10]).toBe("Futebol Corinthians");
+    expect(nomesPorFoto[14]).toBe("Lilo & Stitch / Flamengo");
     expect(nomesPorFoto[16]).toBe("Chá de Bebê Ursinho Baloeiro");
     expect(nomesPorFoto[26]).toBe("Painel Happy Birthday Rosé");
+    expect(nomesPorFoto[42]).toBe("Vaquinha Tetê");
+    expect(nomesPorFoto[44]).toBe("Jesus");
+  });
+
+  it("usa os nomes e categorias definitivos na galeria, sem espaços nas pontas", () => {
+    expect(fotos.length).toBe(45);
+    for (const f of fotos) {
+      expect(f.nome).toBe(nomesPorFoto[f.n]);
+      expect(f.nome).toBe(f.nome.trim());
+      expect(f.nome.length).toBeGreaterThan(0);
+    }
+    expect(fotos.find((f) => f.n === 44)?.nome).toBe("Jesus");
+    expect(fotos.find((f) => f.n === 44)?.cat).toBe("Infantil");
+    expect(fotos.find((f) => f.n === 29)?.cat).toBe("Esportes");
+    expect(fotos.find((f) => f.n === 26)?.cat).toBe("Adulto");
+    expect(fotos.find((f) => f.n === 42)?.cat).toBe("Bebê & Mesversário");
   });
 
   it("garante que todas as fotos da galeria possuem URLs válidas que iniciam com http ou https", () => {
