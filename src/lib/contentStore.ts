@@ -518,7 +518,7 @@ const FOTOS_DEFINITIVAS = new Map(defaultFotos.map((f) => [f.n, f]));
 export function withDefinitiveGalleryNames(galleryFotos: GalleryPhotoItem[]): GalleryPhotoItem[] {
   return galleryFotos.map((f) => {
     const base = FOTOS_DEFINITIVAS.get(f.n);
-    return base ? { ...f, nome: base.nome, cat: base.cat } : f;
+    return base ? { ...f, img: base.img, nome: base.nome, cat: base.cat } : f;
   });
 }
 
