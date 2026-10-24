@@ -199,7 +199,7 @@ export const nomesPorFoto: Record<number, string> = {
 export function resolveAssetUrl(url: string | undefined | null): string {
   if (!url) return "";
   if (url.startsWith("/__l5e/assets-v1/")) {
-    return `https://apermvdecoracoes.lovable.app${url}`;
+    return `https://id-preview-4d9b5f56--16965489-0e31-494f-81cd-307c92933467.lovable.app${url}`;
   }
   return url;
 }
