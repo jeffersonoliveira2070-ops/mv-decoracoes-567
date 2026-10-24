@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef, useEffect, type ChangeEvent, type FormEvent } from "react";
 import {
-  isAdminAuthenticatedSync,
   isAdminAuthenticated,
   signInAdmin,
   signOutAdmin,
@@ -216,7 +215,7 @@ type TabType =
 // confirma via async após hidratação.
 function AdminPage() {
   const [authState, setAuthState] = useState<"loading" | "ok" | "denied">(
-    () => (isAdminAuthenticatedSync() ? "loading" : "denied"),
+    () => "loading",
   );
 
   useEffect(() => {
