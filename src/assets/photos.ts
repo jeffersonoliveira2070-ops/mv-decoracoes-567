@@ -209,7 +209,7 @@ export const fotos = F.map((a, i) => {
   const cat = cats[n] || "Infantil";
   return {
     n,
-    img: `/fotos/foto-${String(n).padStart(2, "0")}.jpg`,
+    img: resolveAssetUrl(a.url as string),
     cat,
     nome: nomesPorFoto[n] || `Decoração ${cat} #${n}`,
   };
