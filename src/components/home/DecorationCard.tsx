@@ -70,7 +70,7 @@ export function DecorationCard({
               loading="lazy"
               onLoad={() => setLoaded(true)}
               onError={handleImageError}
-              className={`absolute inset-0 h-full w-full object-contain object-center sm:object-cover transition-all duration-700 ease-out sm:group-hover:scale-105 ${
+              className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 ${
                 "opacity-100"
               }`}
             />
