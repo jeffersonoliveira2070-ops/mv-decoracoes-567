@@ -140,6 +140,8 @@ function Index() {
     { label: "Contato", href: "#contato" },
   ];
 
+  const [logoFailed, setLogoFailed] = useState(false);
+  const [heroFailed, setHeroFailed] = useState(false);
   const logoSize = content.globalStyles?.logoSizePx || 40;
 
   return (
@@ -155,12 +157,11 @@ function Index() {
             className="flex min-w-0 items-center gap-3 transition hover:opacity-90"
             aria-label={`Ir para o início de ${activeNome}`}
           >
-            <img
-              src={resolveAssetUrl(logoAsset.url)}
-              alt={`Logotipo da ${activeNome}`}
-              style={{ width: `${logoSize}px`, height: `${logoSize}px` }}
-              className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40"
-            />
+            {logoFailed ? (
+              <span style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary ring-2 ring-gold/40" aria-label="MV Decorações">MV</span>
+            ) : (
+              <img src={resolveAssetUrl(logoAsset.url)} alt={`Logotipo da ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40" />
+            )}
             <div className="min-w-0">
               <span className="truncate font-display text-lg font-bold tracking-tight text-foreground sm:text-xl">
                 {activeNome}
@@ -298,13 +299,15 @@ function Index() {
           <div className="relative flex justify-center">
             <div className="absolute -inset-4 rounded-[2.5rem] bg-gold/15 blur-2xl" aria-hidden="true" />
             <div className="relative overflow-hidden rounded-[2.2rem] border border-border/80 bg-card p-2 shadow-2xl transition hover:scale-[1.01]">
-              <img
-                src={heroFoto}
-                alt="Decoração de festa com painel e balões por MV Decorações"
-                width={700}
-                height={850}
-                className="aspect-[4/5] w-full rounded-[1.8rem] object-cover"
-              />
+              {heroFailed ? (
+                <div className="flex aspect-[4/5] w-full flex-col items-center justify-center gap-5 rounded-[1.8rem] bg-gradient-to-br from-rose-100 via-amber-50 to-rose-200 p-8 text-center text-rose-900">
+                  <Sparkles className="h-14 w-14 text-amber-600" />
+                  <span className="font-display text-3xl font-bold">Momentos únicos começam aqui</span>
+                  <span className="text-sm">Conheça nossos temas e solicite seu orçamento pelo WhatsApp.</span>
+                </div>
+              ) : (
+                <img src={heroFoto} alt="Decoração de festa com painel e balões por MV Decorações" width={700} height={850} onError={() => setHeroFailed(true)} className="aspect-[4/5] w-full rounded-[1.8rem] object-cover" />
+              )}
               <div className="absolute bottom-5 inset-x-5 rounded-2xl bg-black/60 p-3.5 backdrop-blur-md text-white shadow-lg">
                 <p className="text-xs font-bold font-display">Acabamento Impecável & Balões Orgânicos</p>
                 <p className="text-[11px] text-slate-200">Kits personalizados para cada comemoração</p>
@@ -781,12 +784,11 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-8 px-5 text-sm sm:grid-cols-3 items-center">
           {/* Logo e Nome */}
           <div className="flex items-center gap-3">
-            <img
-              src={resolveAssetUrl(logoAsset.url)}
-              alt={`Logotipo ${activeNome}`}
-              style={{ width: `${logoSize}px`, height: `${logoSize}px` }}
-              className="shrink-0 rounded-full object-cover ring-1 ring-gold/40"
-            />
+            {logoFailed ? (
+              <span style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary ring-1 ring-gold/40" aria-label="MV Decorações">MV</span>
+            ) : (
+              <img src={resolveAssetUrl(logoAsset.url)} alt={`Logotipo ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover ring-1 ring-gold/40" />
+            )}
             <div>
               <span className="font-display text-base font-bold text-foreground">{activeNome}</span>
               <p className="text-[11px] text-muted-foreground">{activeCidade}</p>
