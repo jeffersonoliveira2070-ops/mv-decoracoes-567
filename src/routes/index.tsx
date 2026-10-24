@@ -303,7 +303,7 @@ function Index() {
                 alt="Decoração de festa com painel e balões por MV Decorações"
                 width={700}
                 height={850}
-                className="aspect-[4/5] w-full rounded-[1.8rem] object-cover"
+                className="h-auto w-full max-w-full rounded-[1.8rem] object-contain md:aspect-[4/5] md:object-cover"
               />
               <div className="absolute bottom-5 inset-x-5 rounded-2xl bg-black/60 p-3.5 backdrop-blur-md text-white shadow-lg">
                 <p className="text-xs font-bold font-display">Acabamento Impecável & Balões Orgânicos</p>
