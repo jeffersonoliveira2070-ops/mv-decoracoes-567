@@ -209,7 +209,7 @@ export const fotos = F.map((a, i) => {
   const cat = cats[n] || "Infantil";
   return {
     n,
-    img: `/fotos/foto-${String(n).padStart(2, "0")}.jpg`,
+    img: resolveAssetUrl(a.url as string),
     cat,
     nome: nomesPorFoto[n] || `Decoração ${cat} #${n}`,
   };
@@ -224,7 +224,7 @@ import kit25 from "./kit-25.jpg.asset.json";
 import kit40 from "./kit-40.jpg.asset.json";
 
 // Destaques (versões tratadas para os cartões de kits)
-export const heroFoto = fotos[25]!.img; // foto-26 — painel rosa "Happy Birthday"
+export const heroFoto = resolveAssetUrl(fotos[25]!.img); // foto-26 — painel rosa "Happy Birthday"
 export const stitch = resolveAssetUrl(kit12.url as string); // foto-12
 export const ursos = resolveAssetUrl(kit16.url as string); // foto-16
 export const corinthians = resolveAssetUrl(kit10.url as string); // foto-10
