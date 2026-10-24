@@ -157,10 +157,10 @@ function Index() {
             className="flex min-w-0 items-center gap-3 transition hover:opacity-90"
             aria-label={`Ir para o início de ${activeNome}`}
           >
-            {true ? (
+            {logoFailed ? (
               <span style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary ring-2 ring-gold/40" aria-label="MV Decorações">MV</span>
             ) : (
-              <img src={resolveAssetUrl(logoAsset.url)} alt={`Logotipo da ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40" />
+              <img src={`https://id-preview-4d9b5f56--16965489-0e31-494f-81cd-307c92933467.lovable.app${logoAsset.url}`} alt={`Logotipo da ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40" />
             )}
             <div className="min-w-0">
               <span className="truncate font-display text-lg font-bold tracking-tight text-foreground sm:text-xl">
@@ -306,7 +306,7 @@ function Index() {
                   <span className="text-sm">Conheça nossos temas e solicite seu orçamento pelo WhatsApp.</span>
                 </div>
               ) : (
-                <img src="/fotos/foto-26.jpg" alt="Decoração de festa da MV Decorações" width={700} height={850} onError={() => setHeroFailed(true)} className="aspect-[4/5] w-full rounded-[1.8rem] object-cover" />
+                <img src={heroFoto} alt="Decoração de festa da MV Decorações" width={700} height={850} onError={() => setHeroFailed(true)} className="aspect-[4/5] w-full rounded-[1.8rem] object-cover" />
               )}
               <div className="absolute bottom-5 inset-x-5 rounded-2xl bg-black/60 p-3.5 backdrop-blur-md text-white shadow-lg">
                 <p className="text-xs font-bold font-display">Acabamento Impecável & Balões Orgânicos</p>
@@ -784,10 +784,10 @@ function Index() {
         <div className="mx-auto grid max-w-6xl gap-8 px-5 text-sm sm:grid-cols-3 items-center">
           {/* Logo e Nome */}
           <div className="flex items-center gap-3">
-            {true ? (
+            {logoFailed ? (
               <span style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary ring-1 ring-gold/40" aria-label="MV Decorações">MV</span>
             ) : (
-              <img src={resolveAssetUrl(logoAsset.url)} alt={`Logotipo ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover ring-1 ring-gold/40" />
+              <img src={`https://id-preview-4d9b5f56--16965489-0e31-494f-81cd-307c92933467.lovable.app${logoAsset.url}`} alt={`Logotipo ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover ring-1 ring-gold/40" />
             )}
             <div>
               <span className="font-display text-base font-bold text-foreground">{activeNome}</span>
