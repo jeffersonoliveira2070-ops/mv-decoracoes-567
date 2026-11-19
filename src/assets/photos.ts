@@ -1,49 +1,49 @@
 // Fotos reais enviadas pelo cliente (45 fotos), servidas via CDN.
-import foto01 from "./foto-01.jpg.asset.json";
-import foto02 from "./foto-02.jpg.asset.json";
-import foto03 from "./foto-03.jpg.asset.json";
-import foto04 from "./foto-04.jpg.asset.json";
-import foto05 from "./foto-05.jpg.asset.json";
-import foto06 from "./foto-06.jpg.asset.json";
-import foto07 from "./foto-07.jpg.asset.json";
-import foto08 from "./foto-08.jpg.asset.json";
-import foto09 from "./foto-09.jpg.asset.json";
-import foto10 from "./foto-10.jpg.asset.json";
-import foto11 from "./foto-11.jpg.asset.json";
-import foto12 from "./foto-12.jpg.asset.json";
-import foto13 from "./foto-13.jpg.asset.json";
-import foto14 from "./foto-14.jpg.asset.json";
-import foto15 from "./foto-15.jpg.asset.json";
-import foto16 from "./foto-16.jpg.asset.json";
-import foto17 from "./foto-17.jpg.asset.json";
-import foto18 from "./foto-18.jpg.asset.json";
-import foto19 from "./foto-19.jpg.asset.json";
-import foto20 from "./foto-20.jpg.asset.json";
-import foto21 from "./foto-21.jpg.asset.json";
-import foto22 from "./foto-22.jpg.asset.json";
-import foto23 from "./foto-23.jpg.asset.json";
-import foto24 from "./foto-24.jpg.asset.json";
-import foto25 from "./foto-25.jpg.asset.json";
-import foto26 from "./foto-26.jpg.asset.json";
-import foto27 from "./foto-27.jpg.asset.json";
-import foto28 from "./foto-28.jpg.asset.json";
-import foto29 from "./foto-29.jpg.asset.json";
-import foto30 from "./foto-30.jpg.asset.json";
-import foto31 from "./foto-31.jpg.asset.json";
-import foto32 from "./foto-32.jpg.asset.json";
-import foto33 from "./foto-33.jpg.asset.json";
-import foto34 from "./foto-34.jpg.asset.json";
-import foto35 from "./foto-35.jpg.asset.json";
-import foto36 from "./foto-36.jpg.asset.json";
-import foto37 from "./foto-37.jpg.asset.json";
-import foto38 from "./foto-38.jpg.asset.json";
-import foto39 from "./foto-39.jpg.asset.json";
-import foto40 from "./foto-40.jpg.asset.json";
-import foto41 from "./foto-41.jpg.asset.json";
-import foto42 from "./foto-42.jpg.asset.json";
-import foto43 from "./foto-43.jpg.asset.json";
-import foto44 from "./foto-44.jpg.asset.json";
-import foto45 from "./foto-45.jpg.asset.json";
+const foto01 = { url: "/mv-imagens/foto-01.jpg" };
+const foto02 = { url: "/mv-imagens/foto-02.jpg" };
+const foto03 = { url: "/mv-imagens/foto-03.jpg" };
+const foto04 = { url: "/mv-imagens/foto-04.jpg" };
+const foto05 = { url: "/mv-imagens/foto-05.jpg" };
+const foto06 = { url: "/mv-imagens/foto-06.jpg" };
+const foto07 = { url: "/mv-imagens/foto-07.jpg" };
+const foto08 = { url: "/mv-imagens/foto-08.jpg" };
+const foto09 = { url: "/mv-imagens/foto-09.jpg" };
+const foto10 = { url: "/mv-imagens/foto-10.jpg" };
+const foto11 = { url: "/mv-imagens/foto-11.jpg" };
+const foto12 = { url: "/mv-imagens/foto-12.jpg" };
+const foto13 = { url: "/mv-imagens/foto-13.jpg" };
+const foto14 = { url: "/mv-imagens/foto-14.jpg" };
+const foto15 = { url: "/mv-imagens/foto-15.jpg" };
+const foto16 = { url: "/mv-imagens/foto-16.jpg" };
+const foto17 = { url: "/mv-imagens/foto-17.jpg" };
+const foto18 = { url: "/mv-imagens/foto-18.jpg" };
+const foto19 = { url: "/mv-imagens/foto-19.jpg" };
+const foto20 = { url: "/mv-imagens/foto-20.jpg" };
+const foto21 = { url: "/mv-imagens/foto-21.jpg" };
+const foto22 = { url: "/mv-imagens/foto-22.jpg" };
+const foto23 = { url: "/mv-imagens/foto-23.jpg" };
+const foto24 = { url: "/mv-imagens/foto-24.jpg" };
+const foto25 = { url: "/mv-imagens/foto-25.jpg" };
+const foto26 = { url: "/mv-imagens/foto-26.jpg" };
+const foto27 = { url: "/mv-imagens/foto-27.jpg" };
+const foto28 = { url: "/mv-imagens/foto-28.jpg" };
+const foto29 = { url: "/mv-imagens/foto-29.jpg" };
+const foto30 = { url: "/mv-imagens/foto-30.jpg" };
+const foto31 = { url: "/mv-imagens/foto-31.jpg" };
+const foto32 = { url: "/mv-imagens/foto-32.jpg" };
+const foto33 = { url: "/mv-imagens/foto-33.jpg" };
+const foto34 = { url: "/mv-imagens/foto-34.jpg" };
+const foto35 = { url: "/mv-imagens/foto-35.jpg" };
+const foto36 = { url: "/mv-imagens/foto-36.jpg" };
+const foto37 = { url: "/mv-imagens/foto-37.jpg" };
+const foto38 = { url: "/mv-imagens/foto-38.jpg" };
+const foto39 = { url: "/mv-imagens/foto-39.jpg" };
+const foto40 = { url: "/mv-imagens/foto-40.jpg" };
+const foto41 = { url: "/mv-imagens/foto-41.jpg" };
+const foto42 = { url: "/mv-imagens/foto-42.jpg" };
+const foto43 = { url: "/mv-imagens/foto-43.jpg" };
+const foto44 = { url: "/mv-imagens/foto-44.jpg" };
+const foto45 = { url: "/mv-imagens/foto-45.jpg" };
 
 export type Cat = "Infantil" | "Bebê & Mesversário" | "Esportes" | "Adulto";
 
@@ -198,9 +198,6 @@ export const nomesPorFoto: Record<number, string> = {
  */
 export function resolveAssetUrl(url: string | undefined | null): string {
   if (!url) return "";
-  if (url.startsWith("/__l5e/assets-v1/")) {
-    return `https://id-preview-4d9b5f56--16965489-0e31-494f-81cd-307c92933467.lovable.app${url}`;
-  }
   return url;
 }
 
@@ -216,12 +213,12 @@ export const fotos = F.map((a, i) => {
 });
 
 
-import kit10 from "./kit-10.jpg.asset.json";
-import kit12 from "./kit-12.jpg.asset.json";
-import kit16 from "./kit-16.jpg.asset.json";
-import kit18 from "./kit-18.jpg.asset.json";
-import kit25 from "./kit-25.jpg.asset.json";
-import kit40 from "./kit-40.jpg.asset.json";
+const kit10 = { url: "/mv-imagens/foto-10.jpg" };
+const kit12 = { url: "/mv-imagens/foto-12.jpg" };
+const kit16 = { url: "/mv-imagens/foto-16.jpg" };
+const kit18 = { url: "/mv-imagens/foto-18.jpg" };
+const kit25 = { url: "/mv-imagens/foto-25.jpg" };
+const kit40 = { url: "/mv-imagens/foto-40.jpg" };
 
 // Destaques (versões tratadas para os cartões de kits)
 export const heroFoto = resolveAssetUrl(fotos[25]!.img); // foto-26 — painel rosa "Happy Birthday"
