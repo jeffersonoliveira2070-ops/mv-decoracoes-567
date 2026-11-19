@@ -39,7 +39,6 @@ import {
   arcoNeon,
   resolveAssetUrl,
 } from "@/assets/photos";
-import logoAsset from "@/assets/logo.png.asset.json";
 import { useSiteContent } from "@/lib/contentStore";
 import { DecorationCard } from "@/components/home/DecorationCard";
 import { CustomerReviewsSection } from "@/components/home/CustomerReviewsSection";
@@ -160,7 +159,7 @@ function Index() {
             {logoFailed ? (
               <span style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary ring-2 ring-gold/40" aria-label="MV Decorações">MV</span>
             ) : (
-              <img src={`https://id-preview-4d9b5f56--16965489-0e31-494f-81cd-307c92933467.lovable.app${logoAsset.url}`} alt={`Logotipo da ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40" />
+              <img src={"/mv-imagens/logo.png"} alt={`Logotipo da ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover shadow-sm ring-2 ring-gold/40" />
             )}
             <div className="min-w-0">
               <span className="truncate font-display text-lg font-bold tracking-tight text-foreground sm:text-xl">
@@ -787,7 +786,7 @@ function Index() {
             {logoFailed ? (
               <span style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="flex shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary ring-1 ring-gold/40" aria-label="MV Decorações">MV</span>
             ) : (
-              <img src={`https://id-preview-4d9b5f56--16965489-0e31-494f-81cd-307c92933467.lovable.app${logoAsset.url}`} alt={`Logotipo ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover ring-1 ring-gold/40" />
+              <img src={"/mv-imagens/logo.png"} alt={`Logotipo ${activeNome}`} onError={() => setLogoFailed(true)} style={{ width: `${logoSize}px`, height: `${logoSize}px` }} className="shrink-0 rounded-full object-cover ring-1 ring-gold/40" />
             )}
             <div>
               <span className="font-display text-base font-bold text-foreground">{activeNome}</span>
