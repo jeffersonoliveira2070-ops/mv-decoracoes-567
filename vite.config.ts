@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     tanstackStart({ server: { entry: "server" } }),
     react(),
-    nitro({ preset: "cloudflare" }),
+    nitro({ preset: "cloudflare-pages" }),
   ],
   resolve: { dedupe: ["react", "react-dom", "@tanstack/react-router"] },
   server: { host: true, allowedHosts: ["mvdecoracoes.local", ".local", "localhost"] },
